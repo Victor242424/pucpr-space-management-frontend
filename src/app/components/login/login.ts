@@ -37,7 +37,11 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
         if (response.success) {
-          this.router.navigate(['/dashboard']);
+          if (response.data.role === 'ADMIN') {
+            this.router.navigate(['/dashboard']);
+          } else if (response.data.role === 'STUDENT') {
+            this.router.navigate(['/dashboard-student']);
+          }
         }
       },
       error: (error) => {
