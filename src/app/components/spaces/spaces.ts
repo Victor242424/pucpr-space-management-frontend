@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +30,8 @@ export class SpacesComponent implements OnInit {
   constructor(
     private spaceService: SpaceService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.isAdmin = this.authService.isAdmin();
     this.spaceForm = this.fb.group({
@@ -47,6 +48,7 @@ export class SpacesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSpaces();
+    this.cdr.detectChanges();
   }
 
   loadSpaces(): void {
@@ -58,10 +60,12 @@ export class SpacesComponent implements OnInit {
           this.filteredSpaces = this.spaces;
         }
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error loading spaces:', error);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -106,8 +110,12 @@ export class SpacesComponent implements OnInit {
             this.loadSpaces();
             this.closeModal();
           }
+          this.cdr.detectChanges();
         },
-        error: (error) => console.error('Error updating space:', error)
+        error: (error) => {
+          console.error('Error updating space:', error)
+          this.cdr.detectChanges();
+        } 
       });
     } else {
       this.spaceService.createSpace(spaceData).subscribe({
@@ -116,8 +124,12 @@ export class SpacesComponent implements OnInit {
             this.loadSpaces();
             this.closeModal();
           }
+          this.cdr.detectChanges();
         },
-        error: (error) => console.error('Error creating space:', error)
+        error: (error) => {
+          console.error('Error creating space:', error)
+          this.cdr.detectChanges();
+        } 
       });
     }
   }
@@ -125,8 +137,17 @@ export class SpacesComponent implements OnInit {
   deleteSpace(space: Space): void {
     if (confirm(`Are you sure you want to delete ${space.name}?`)) {
       this.spaceService.deleteSpace(space.id).subscribe({
-        next: () => this.loadSpaces(),
-        error: (error) => console.error('Error deleting space:', error)
+        next: (response) => {
+          console.log(response);
+          debugger;
+          this.loadSpaces();
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          debugger;
+          console.error('Error deleting space:', error)
+          this.cdr.detectChanges();
+        } 
       });
     }
   }
