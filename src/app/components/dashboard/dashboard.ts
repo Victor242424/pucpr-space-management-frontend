@@ -55,9 +55,13 @@ export class DashboardComponent implements OnInit {
         if (response.success) {
           this.spaces = response.data;
           this.calculateStats();
+          this.cdr.detectChanges(); 
         }
       },
-      error: (error) => console.error('Error loading spaces:', error)
+      error: (error) => {
+        console.error('Error loading spaces:', error)
+        this.cdr.detectChanges(); 
+      } 
     });
 
     this.accessRecordService.getActiveAccessRecords().subscribe({
@@ -65,9 +69,13 @@ export class DashboardComponent implements OnInit {
         if (response.success) {
           this.activeAccess = response.data;
           this.stats.activeUsers = this.activeAccess.length;
+          this.cdr.detectChanges(); 
         }
       },
-      error: (error) => console.error('Error loading active access:', error)
+      error: (error) => {
+        console.error('Error loading active access:', error)
+        this.cdr.detectChanges(); 
+      } 
     });
 
     this.reportService.getOccupancyReport().subscribe({
@@ -76,10 +84,12 @@ export class DashboardComponent implements OnInit {
           this.occupancyReports = response.data;
         }
         this.isLoading = false;
+        this.cdr.detectChanges(); 
       },
       error: (error) => {
         console.error('Error loading reports:', error);
         this.isLoading = false;
+        this.cdr.detectChanges(); 
       }
     });
   }
