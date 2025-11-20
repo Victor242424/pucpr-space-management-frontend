@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,7 +18,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -33,6 +34,7 @@ export class LoginComponent {
 
     this.isLoading = true;
     this.errorMessage = '';
+    this.cdr.detectChanges(); 
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
@@ -42,14 +44,16 @@ export class LoginComponent {
           } else if (response.data.role === 'STUDENT') {
             this.router.navigate(['/dashboard-student']);
           }
+        } else {
+          this.errorMessage = response.message || 'Login failed';
         }
+        this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.errorMessage = error.error?.message || 'Invalid username or password';
         this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
