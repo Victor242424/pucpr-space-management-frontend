@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReportService } from '../../services/report.service';
@@ -14,7 +14,10 @@ export class ReportsComponent implements OnInit {
   reports: OccupancyReport[] = [];
   isLoading = true;
 
-  constructor(private reportService: ReportService) {}
+  constructor(
+    private reportService: ReportService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadReports();
@@ -28,10 +31,12 @@ export class ReportsComponent implements OnInit {
           this.reports = response.data;
         }
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error loading reports:', error);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
