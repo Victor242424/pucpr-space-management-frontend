@@ -1,0 +1,117 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary-500 to-secondary-700 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-2xl">
+    <div>
+      <h2 class="text-center text-3xl font-extrabold text-gray-900">
+        Create New Account
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Register as a new student
+      </p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
+      <div *ngIf="errorMessage" class="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded">
+        {{ successMessage }}
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label for="registrationNumber" class="label">Registration Number</label>
+          <input
+            id="registrationNumber"
+            type="text"
+            formControlName="registrationNumber"
+            class="input"
+            placeholder="e.g., 2024001"
+          />
+        </div>
+
+        <div>
+          <label for="name" class="label">Full Name</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            class="input"
+            placeholder="John Doe"
+          />
+        </div>
+
+        <div>
+          <label for="email" class="label">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="input"
+            placeholder="john@example.com"
+          />
+        </div>
+
+        <div>
+          <label for="phoneNumber" class="label">Phone Number (Optional)</label>
+          <input
+            id="phoneNumber"
+            type="tel"
+            formControlName="phoneNumber"
+            class="input"
+            placeholder="+1234567890"
+          />
+        </div>
+
+        <div>
+          <label for="password" class="label">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="input"
+            placeholder="Minimum 6 characters"
+          />
+        </div>
+
+        <div>
+          <label for="confirmPassword" class="label">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            class="input"
+            placeholder="Repeat your password"
+          />
+          <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" 
+               class="text-red-500 text-xs mt-1">
+            Passwords do not match
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          [disabled]="registerForm.invalid || isLoading"
+          class="btn btn-primary w-full py-3 text-base"
+        >
+          <span *ngIf="!isLoading">Register</span>
+          <span *ngIf="isLoading" class="flex items-center justify-center">
+            <div class="spinner w-5 h-5 border-2 mr-2"></div>
+            Registering...
+          </span>
+        </button>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-600">
+          Already have an account?
+          <button type="button" (click)="navigateToLogin()" class="text-secondary-600 hover:text-secondary-700 font-medium">
+            Sign in here
+          </button>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

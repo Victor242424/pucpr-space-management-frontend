@@ -1,0 +1,140 @@
+<div class="min-h-screen bg-gray-50">
+  <nav class="bg-white shadow-sm mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center h-16">
+        <a routerLink="/dashboard" class="text-primary-600 hover:text-primary-700 mr-4">← Back</a>
+        <h1 class="text-2xl font-bold text-gray-800">Access Control</h1>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Messages -->
+    <div *ngIf="successMessage" class="mb-4 bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="mb-4 bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded">
+      {{ errorMessage }}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <!-- Register Entry -->
+      <div class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🚪 Register Entry</h2>
+        <form [formGroup]="entryForm" (ngSubmit)="registerEntry()">
+          <div class="space-y-4">
+            <div *ngIf="isAdmin">
+              <label class="label">Student *</label>
+              <select formControlName="studentId" class="input">
+                <option value="">Select a student</option>
+                <option *ngFor="let student of students" [value]="student.id">
+                  {{ student.name }} ({{ student.registrationNumber }})
+                </option>
+              </select>
+            </div>
+            <div *ngIf="!isAdmin">
+              <label class="label">Student</label>
+              <input type="text" [value]="currentUser?.username" class="input" disabled />
+            </div>
+
+            <div>
+              <label class="label">Space *</label>
+              <select formControlName="spaceId" class="input">
+                <option value="">Select a space</option>
+                <option *ngFor="let space of spaces" [value]="space.id">
+                  {{ space.name }} - {{ space.currentOccupancy }}/{{ space.capacity }}
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label">Notes (Optional)</label>
+              <textarea formControlName="notes" class="input" rows="2" placeholder="Add any notes..."></textarea>
+            </div>
+
+            <button type="submit" [disabled]="entryForm.invalid" class="btn btn-primary w-full">
+              Register Entry
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Register Exit -->
+      <div class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🚶 Register Exit</h2>
+        <form [formGroup]="exitForm" (ngSubmit)="registerExit()">
+          <div class="space-y-4">
+            <div>
+              <label class="label">Active Session *</label>
+              <select formControlName="accessRecordId" class="input">
+                <option value="">Select an active session</option>
+                <option *ngFor="let record of activeRecords" [value]="record.id">
+                  {{ record.studentName }} - {{ record.spaceName }} ({{ getElapsedTime(record.entryTime) }})
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label">Notes (Optional)</label>
+              <textarea formControlName="notes" class="input" rows="2" placeholder="Add exit notes..."></textarea>
+            </div>
+
+            <button type="submit" [disabled]="exitForm.invalid" class="btn btn-success w-full">
+              Register Exit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Active Sessions -->
+    <div class="card">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Active Sessions</h2>
+      
+      <div *ngIf="isLoading" class="flex justify-center py-8">
+        <div class="spinner"></div>
+      </div>
+
+      <div *ngIf="!isLoading && activeRecords.length === 0" class="text-center py-8 text-gray-500">
+        No active sessions
+      </div>
+
+      <div *ngIf="!isLoading && activeRecords.length > 0" class="overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Space</th>
+              <th>Entry Time</th>
+              <th>Duration</th>
+              <th>Notes</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of activeRecords">
+              <td>
+                <div class="font-medium">{{ record.studentName }}</div>
+                <div class="text-xs text-gray-500">{{ record.studentRegistrationNumber }}</div>
+              </td>
+              <td>
+                <div class="font-medium">{{ record.spaceName }}</div>
+                <div class="text-xs text-gray-500">{{ record.spaceCode }}</div>
+              </td>
+              <td>{{ record.entryTime | date:'short' }}</td>
+              <td>
+                <span class="badge badge-info">{{ getElapsedTime(record.entryTime) }}</span>
+              </td>
+              <td>{{ record.notes || '-' }}</td>
+              <td>
+                <button (click)="quickExit(record.id)" class="btn btn-success text-sm py-1 px-3">
+                  Exit
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
