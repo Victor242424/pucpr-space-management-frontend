@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoginRequest, AuthResponse } from '../models/auth.model';
 import { ApiResponse } from '../models/api-response.model';
-import { CreateStudentRequest } from '../models/student.model';
+import { CreateStudentRequest, Student } from '../models/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,12 @@ export class AuthService {
   private readonly API_URL = 'http://localhost:8080/api';
   private readonly TOKEN_KEY = 'auth_token';
   private readonly USER_KEY = 'user_data';
+  private readonly STUDENT_KEY = 'student_data';
 
+  
   private currentUserSubject = new BehaviorSubject<AuthResponse | null>(this.getUserData());
+  private currentStudent = new BehaviorSubject<Student | null>(this.getStudentDataStorage());
+  public currentStudent$ = this.currentUserSubject.asObservable();
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
@@ -29,6 +33,11 @@ export class AuthService {
           if (response.success && response.data) {
             this.setSession(response.data);
             this.currentUserSubject.next(response.data);
+            debugger;
+            if (response.data.role === 'STUDENT') {
+              debugger;
+              this.getStudentDataBackend(response.data.studentId!.toString()).subscribe();
+            }
           }
         })
       );
@@ -71,5 +80,32 @@ export class AuthService {
   private getUserData(): AuthResponse | null {
     const userData = localStorage.getItem(this.USER_KEY);
     return userData ? JSON.parse(userData) : null;
+  }
+
+
+  getStudentDataBackend(student_id: String): Observable<ApiResponse<Student>> {
+    console.log('Fetching student data for ID:', student_id);
+    console.log('API URL:', `${this.API_URL}/students/${student_id}`);
+    debugger;
+    return this.http.get<ApiResponse<Student>>(`${this.API_URL}/students/${student_id}`)
+      .pipe(
+        tap(response => {
+          console.log('Fetched student data:', response);
+          debugger;
+          if (response.success && response.data) {
+            localStorage.setItem(this.STUDENT_KEY,JSON.stringify(response.data));
+            this.currentStudent.next(response.data);
+            console.log('Stored student data in storage:', response.data);
+            debugger;
+          }
+        })
+      );
+  }
+
+  getStudentDataStorage(): Student | null {
+    const studentData = localStorage.getItem(this.STUDENT_KEY);
+    console.log('Retrieved student data from storage:', studentData);
+    debugger;
+    return studentData ? JSON.parse(studentData) : null;
   }
 }

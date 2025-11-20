@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -8,6 +8,7 @@ import { ReportService } from '../../services/report.service';
 import { Space } from '../../models/space.model';
 import { AccessRecord } from '../../models/access-record.model';
 import { OccupancyReport } from '../../models/report.model';
+import { Student } from '../../models/student.model';
 
 @Component({
   selector: 'app-dashboard-student',
@@ -17,6 +18,7 @@ import { OccupancyReport } from '../../models/report.model';
 })
 export class DashboardStudentComponent implements OnInit{
   currentUser: any;
+  curerntStudent: Student | null = null;
   spaces: Space[] = [];
   activeAccess: AccessRecord[] = [];
   occupancyReports: OccupancyReport[] = [];
@@ -35,9 +37,10 @@ export class DashboardStudentComponent implements OnInit{
     private spaceService: SpaceService,
     private accessRecordService: AccessRecordService,
     private reportService: ReportService,
-    private router: Router
+    private router: Router,
   ) {
     this.currentUser = this.authService.getCurrentUser();
+    this.curerntStudent = this.authService.getStudentDataStorage();
     this.isAdmin = this.authService.isAdmin();
   }
 
