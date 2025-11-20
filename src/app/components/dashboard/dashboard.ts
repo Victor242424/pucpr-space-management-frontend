@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -35,7 +35,8 @@ export class DashboardComponent implements OnInit {
     private spaceService: SpaceService,
     private accessRecordService: AccessRecordService,
     private reportService: ReportService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.currentUser = this.authService.getCurrentUser();
     this.isAdmin = this.authService.isAdmin();
@@ -43,6 +44,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDashboardData();
+    this.cdr.detectChanges(); 
   }
 
   loadDashboardData(): void {
