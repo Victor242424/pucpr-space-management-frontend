@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -33,7 +33,9 @@ export class AccessControlComponent implements OnInit {
     private accessRecordService: AccessRecordService,
     private spaceService: SpaceService,
     private studentService: StudentService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+
   ) {
     this.currentUser = this.authService.getCurrentUser();
     this.isAdmin = this.authService.isAdmin();
@@ -50,20 +52,26 @@ export class AccessControlComponent implements OnInit {
     });
   }
 
+
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData(): void {
     this.isLoading = true;
+    this.cdr.detectChanges(); 
 
     this.spaceService.getAllSpaces().subscribe({
       next: (response) => {
         if (response.success) {
           this.spaces = response.data.filter(s => s.status === 'AVAILABLE' || s.status === 'OCCUPIED');
+          this.cdr.detectChanges(); 
         }
       },
-      error: (error) => console.error('Error loading spaces:', error)
+      error: (error) => {
+        console.error('Error loading spaces:', error);
+        this.cdr.detectChanges(); 
+      }
     });
 
     if (this.isAdmin) {
@@ -71,12 +79,16 @@ export class AccessControlComponent implements OnInit {
         next: (response) => {
           if (response.success) {
             this.students = response.data.filter(s => s.status === 'ACTIVE');
+            this.cdr.detectChanges(); 
+
           }
         },
-        error: (error) => console.error('Error loading students:', error)
+        error: (error) => {
+          console.error('Error loading students:', error);
+          this.cdr.detectChanges(); 
+        } 
       });
     }
-
     this.loadActiveRecords();
   }
 
@@ -94,10 +106,12 @@ export class AccessControlComponent implements OnInit {
           }
         }
         this.isLoading = false;
+        this.cdr.detectChanges(); 
       },
       error: (error) => {
         console.error('Error loading active records:', error);
         this.isLoading = false;
+        this.cdr.detectChanges(); 
       }
     });
   }
@@ -107,6 +121,7 @@ export class AccessControlComponent implements OnInit {
 
     this.errorMessage = '';
     this.successMessage = '';
+    this.cdr.detectChanges(); 
 
     this.accessRecordService.registerEntry(this.entryForm.value).subscribe({
       next: (response) => {
@@ -116,9 +131,11 @@ export class AccessControlComponent implements OnInit {
           this.loadData();
           setTimeout(() => this.successMessage = '', 3000);
         }
+        this.cdr.detectChanges(); 
       },
       error: (error) => {
         this.errorMessage = error.error?.message || 'Failed to register entry';
+        this.cdr.detectChanges(); 
       }
     });
   }
@@ -128,6 +145,7 @@ export class AccessControlComponent implements OnInit {
 
     this.errorMessage = '';
     this.successMessage = '';
+    this.cdr.detectChanges(); 
 
     this.accessRecordService.registerExit(this.exitForm.value).subscribe({
       next: (response) => {
@@ -136,10 +154,12 @@ export class AccessControlComponent implements OnInit {
           this.exitForm.reset();
           this.loadData();
           setTimeout(() => this.successMessage = '', 3000);
+          this.cdr.detectChanges(); 
         }
       },
       error: (error) => {
         this.errorMessage = error.error?.message || 'Failed to register exit';
+        this.cdr.detectChanges(); 
       }
     });
   }
@@ -166,5 +186,9 @@ export class AccessControlComponent implements OnInit {
   getSpaceName(spaceId: number): string {
     const space = this.spaces.find(s => s.id === spaceId);
     return space?.name || 'Unknown';
+  }
+
+  getDashboardLink(): string {
+    return this.isAdmin ? '/dashboard' : '/dashboard-student';
   }
 }
