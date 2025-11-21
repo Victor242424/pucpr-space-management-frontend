@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,7 +19,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.registerForm = this.fb.group({
       registrationNumber: ['', [Validators.required]],
@@ -49,6 +50,7 @@ export class RegisterComponent {
     this.isLoading = true;
     this.errorMessage = '';
     this.successMessage = '';
+    this.cdr.detectChanges();
 
     const { confirmPassword, ...registerData } = this.registerForm.value;
 
@@ -64,10 +66,8 @@ export class RegisterComponent {
       error: (error) => {
         this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
-      complete: () => {
-        this.isLoading = false;
-      }
     });
   }
 
