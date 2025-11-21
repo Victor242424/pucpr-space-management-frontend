@@ -15,12 +15,12 @@ export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AdminGuard] },
   { path: 'dashboard-student', component: DashboardStudentComponent, canActivate: [AuthGuard] },
-  { path: 'spaces', component: SpacesComponent, canActivate: [AuthGuard] },
+  { path: 'spaces', component: SpacesComponent, canActivate: [AdminGuard] },
   { path: 'access', component: AccessControlComponent, canActivate: [AuthGuard] },
-  { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
-  { path: 'students', component: StudentsComponent, canActivate: [AuthGuard, AdminGuard] },
-  { path: 'history', component: AccessRecordsComponent, canActivate: [AuthGuard] },
+  { path: 'reports', component: ReportsComponent, canActivate: [AdminGuard] },
+  { path: 'students', component: StudentsComponent, canActivate: [AdminGuard] },
+  { path: 'history', component: AccessRecordsComponent, canActivate: [AdminGuard] },
   { path: '**', redirectTo: '/login' }
 ];
