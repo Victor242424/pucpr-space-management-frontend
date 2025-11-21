@@ -1,0 +1,234 @@
+<div class="min-h-screen bg-gray-50">
+  <nav class="bg-white shadow-sm mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a [routerLink]="getDashboardLink()" class="text-primary-600 hover:text-primary-700 mr-4">← Back</a>
+          <h1 class="text-2xl font-bold text-gray-800">Access Records History</h1>
+        </div>
+        <div class="flex items-center">
+          <button (click)="exportToCSV()" class="btn btn-secondary text-sm">
+            📥 Export CSV
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Filters -->
+    <div class="card mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="label">Search</label>
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="applyFilters()"
+            placeholder="Search by student, space, or code..."
+            class="input"
+          />
+        </div>
+        
+        <div>
+          <label class="label">Status Filter</label>
+          <select [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" class="input">
+            <option value="ALL">All Status</option>
+            <option value="ACTIVE">Active</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="flex items-end">
+          <div class="bg-blue-50 p-3 rounded-lg w-full">
+            <div class="text-sm text-blue-600 mb-1">Total Records</div>
+            <div class="text-2xl font-bold text-blue-900">{{ filteredRecords.length }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="flex justify-center py-12">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && filteredRecords.length === 0" class="text-center py-12">
+      <p class="text-gray-500 text-lg">No access records found</p>
+    </div>
+
+    <!-- Records Table -->
+    <div *ngIf="!isLoading && filteredRecords.length > 0" class="card">
+      <div class="overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Student</th>
+              <th>Space</th>
+              <th>Entry Time</th>
+              <th>Exit Time</th>
+              <th>Duration</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of filteredRecords">
+              <td class="font-mono text-sm">{{ record.id }}</td>
+              <td>
+                <div class="font-medium">{{ record.studentName }}</div>
+                <div class="text-xs text-gray-500">{{ record.studentRegistrationNumber }}</div>
+              </td>
+              <td>
+                <div class="font-medium">{{ record.spaceName }}</div>
+                <div class="text-xs text-gray-500">{{ record.spaceCode }}</div>
+              </td>
+              <td>{{ record.entryTime | date:'short' }}</td>
+              <td>
+                <span *ngIf="record.exitTime">{{ record.exitTime | date:'short' }}</span>
+                <span *ngIf="!record.exitTime" class="text-gray-400">-</span>
+              </td>
+              <td>
+                <span *ngIf="record.durationInMinutes" class="badge badge-info">
+                  {{ record.durationInMinutes }} min
+                </span>
+                <span *ngIf="!record.durationInMinutes && record.status === 'ACTIVE'" class="badge badge-warning">
+                  {{ getElapsedTime(record.entryTime) }}
+                </span>
+                <span *ngIf="!record.durationInMinutes && record.status !== 'ACTIVE'" class="text-gray-400">
+                  -
+                </span>
+              </td>
+              <td>
+                <span [class]="getStatusBadgeClass(record.status)">{{ record.status }}</span>
+              </td>
+              <td>
+                <button 
+                  (click)="openDetailModal(record)" 
+                  class="btn btn-secondary text-sm py-1 px-3"
+                >
+                  Details
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div *ngIf="showModal && selectedRecord" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">Access Record Details</h2>
+          <span [class]="getStatusBadgeClass(selectedRecord.status)">
+            {{ selectedRecord.status }}
+          </span>
+        </div>
+        
+        <div class="space-y-6">
+          <!-- Record ID -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="text-sm text-gray-600 mb-1">Record ID</div>
+            <div class="text-xl font-bold font-mono text-gray-900">#{{ selectedRecord.id }}</div>
+          </div>
+
+          <!-- Student Information -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Student Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <div class="text-sm text-blue-600 mb-1">Name</div>
+                <div class="font-semibold text-blue-900">{{ selectedRecord.studentName }}</div>
+              </div>
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <div class="text-sm text-blue-600 mb-1">Registration Number</div>
+                <div class="font-semibold text-blue-900">{{ selectedRecord.studentRegistrationNumber }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Space Information -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Space Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-purple-50 p-4 rounded-lg">
+                <div class="text-sm text-purple-600 mb-1">Space Name</div>
+                <div class="font-semibold text-purple-900">{{ selectedRecord.spaceName }}</div>
+              </div>
+              <div class="bg-purple-50 p-4 rounded-lg">
+                <div class="text-sm text-purple-600 mb-1">Space Code</div>
+                <div class="font-semibold text-purple-900">{{ selectedRecord.spaceCode }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Information -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Time Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-green-50 p-4 rounded-lg">
+                <div class="text-sm text-green-600 mb-1">Entry Time</div>
+                <div class="font-semibold text-green-900 text-sm">
+                  {{ selectedRecord.entryTime | date:'medium' }}
+                </div>
+              </div>
+              <div class="bg-orange-50 p-4 rounded-lg">
+                <div class="text-sm text-orange-600 mb-1">Exit Time</div>
+                <div class="font-semibold text-orange-900 text-sm">
+                  <span *ngIf="selectedRecord.exitTime">{{ selectedRecord.exitTime | date:'medium' }}</span>
+                  <span *ngIf="!selectedRecord.exitTime" class="text-orange-400">Still Active</span>
+                </div>
+              </div>
+              <div class="bg-indigo-50 p-4 rounded-lg">
+                <div class="text-sm text-indigo-600 mb-1">Duration</div>
+                <div class="font-semibold text-indigo-900">
+                  <span *ngIf="selectedRecord.durationInMinutes">
+                    {{ selectedRecord.durationInMinutes }} minutes
+                  </span>
+                  <span *ngIf="!selectedRecord.durationInMinutes && selectedRecord.status === 'ACTIVE'">
+                    {{ getElapsedTime(selectedRecord.entryTime) }}
+                  </span>
+                  <span *ngIf="!selectedRecord.durationInMinutes && selectedRecord.status !== 'ACTIVE'" class="text-indigo-400">
+                    N/A
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Notes</h3>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <p class="text-gray-700">
+                {{ selectedRecord.notes || 'No notes available' }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Metadata -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Metadata</h3>
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <div class="text-sm text-gray-600">
+                Created at: <span class="font-medium text-gray-900">{{ selectedRecord.createdAt | date:'medium' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button type="button" (click)="closeModal()" class="btn btn-primary w-full">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

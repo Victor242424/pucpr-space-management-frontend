@@ -9,6 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { DashboardStudentComponent } from './components/dashboard-student/dashboard-student';
 import { StudentsComponent } from './components/students/students';
+import { AccessRecordsComponent } from './components/access-records/access-records';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -20,5 +21,6 @@ export const routes: Routes = [
   { path: 'access', component: AccessControlComponent, canActivate: [AuthGuard] },
   { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
   { path: 'students', component: StudentsComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'history', component: AccessRecordsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/login' }
 ];
