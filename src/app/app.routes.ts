@@ -8,6 +8,7 @@ import { ReportsComponent } from './components/reports/reports';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { DashboardStudentComponent } from './components/dashboard-student/dashboard-student';
+import { StudentsComponent } from './components/students/students';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'spaces', component: SpacesComponent, canActivate: [AuthGuard] },
   { path: 'access', component: AccessControlComponent, canActivate: [AuthGuard] },
   { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
+  { path: 'students', component: StudentsComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: '**', redirectTo: '/login' }
 ];

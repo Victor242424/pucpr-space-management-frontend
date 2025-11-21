@@ -1,0 +1,121 @@
+<div class="min-h-screen bg-gray-50">
+  <nav class="bg-white shadow-sm mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a routerLink="/dashboard" class="text-primary-600 hover:text-primary-700 mr-4">← Back</a>
+          <h1 class="text-2xl font-bold text-gray-800">Students Management</h1>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Search Bar -->
+    <div class="mb-6">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterStudents()"
+        placeholder="Search by name, registration number, or email..."
+        class="input max-w-md"
+      />
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="flex justify-center py-12">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Students Grid -->
+    <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let student of filteredStudents" class="card hover:shadow-lg transition-shadow">
+        <div class="flex justify-between items-start mb-3">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">{{ student.name }}</h3>
+            <p class="text-sm text-gray-500">{{ student.registrationNumber }}</p>
+          </div>
+          <span [class]="getStatusBadgeClass(student.status)">{{ student.status }}</span>
+        </div>
+
+        <div class="space-y-2 text-sm">
+          <div class="flex items-start">
+            <span class="text-gray-600 mr-2">📧</span>
+            <span class="font-medium break-all">{{ student.email }}</span>
+          </div>
+          <div *ngIf="student.phoneNumber" class="flex items-start">
+            <span class="text-gray-600 mr-2">📱</span>
+            <span class="font-medium">{{ student.phoneNumber }}</span>
+          </div>
+          <div class="flex items-start">
+            <span class="text-gray-600 mr-2">📅</span>
+            <span class="font-medium">{{ student.createdAt | date:'short' }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="isAdmin" class="mt-4 flex gap-2">
+          <button (click)="openEditModal(student)" class="btn btn-secondary flex-1 text-sm py-2">
+            Edit
+          </button>
+          <button (click)="deleteStudent(student)" class="btn btn-danger flex-1 text-sm py-2">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && filteredStudents.length === 0" class="text-center py-12">
+      <p class="text-gray-500 text-lg">No students found</p>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="p-6">
+        <h2 class="text-2xl font-bold mb-4">Edit Student</h2>
+        
+        <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <label class="label">Registration Number *</label>
+              <input type="text" formControlName="registrationNumber" class="input" readonly />
+            </div>
+            
+            <div>
+              <label class="label">Full Name *</label>
+              <input type="text" formControlName="name" class="input" />
+            </div>
+            
+            <div>
+              <label class="label">Email *</label>
+              <input type="email" formControlName="email" class="input" />
+            </div>
+            
+            <div>
+              <label class="label">Phone Number</label>
+              <input type="tel" formControlName="phoneNumber" class="input" />
+            </div>
+            
+            <div>
+              <label class="label">Status *</label>
+              <select formControlName="status" class="input">
+                <option *ngFor="let status of studentStatuses" [value]="status">{{ status }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button type="submit" [disabled]="studentForm.invalid" class="btn btn-primary flex-1">
+              Update
+            </button>
+            <button type="button" (click)="closeModal()" class="btn btn-secondary flex-1">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
