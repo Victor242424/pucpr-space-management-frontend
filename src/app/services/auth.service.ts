@@ -33,9 +33,7 @@ export class AuthService {
           if (response.success && response.data) {
             this.setSession(response.data);
             this.currentUserSubject.next(response.data);
-            debugger;
             if (response.data.role === 'STUDENT') {
-              debugger;
               this.getStudentDataBackend(response.data.studentId!.toString()).subscribe();
             }
           }
@@ -86,19 +84,12 @@ export class AuthService {
 
 
   getStudentDataBackend(student_id: String): Observable<ApiResponse<Student>> {
-    console.log('Fetching student data for ID:', student_id);
-    console.log('API URL:', `${this.API_URL}/students/${student_id}`);
-    debugger;
     return this.http.get<ApiResponse<Student>>(`${this.API_URL}/students/${student_id}`)
       .pipe(
         tap(response => {
-          console.log('Fetched student data:', response);
-          debugger;
           if (response.success && response.data) {
             localStorage.setItem(this.STUDENT_KEY,JSON.stringify(response.data));
             this.currentStudent.next(response.data);
-            console.log('Stored student data in storage:', response.data);
-            debugger;
           }
         })
       );
@@ -106,8 +97,6 @@ export class AuthService {
 
   getStudentDataStorage(): Student | null {
     const studentData = localStorage.getItem(this.STUDENT_KEY);
-    console.log('Retrieved student data from storage:', studentData);
-    debugger;
     return studentData ? JSON.parse(studentData) : null;
   }
 }
