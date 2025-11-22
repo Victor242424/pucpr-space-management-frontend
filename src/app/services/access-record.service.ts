@@ -8,7 +8,7 @@ import { AccessRecord, EntryRequest, ExitRequest } from '../models/access-record
   providedIn: 'root'
 })
 export class AccessRecordService {
-  private readonly API_URL = 'http://localhost:8080/api/access';
+  private readonly API_URL = 'http://localhost:8081/api/access';
 
   constructor(private http: HttpClient) {}
 

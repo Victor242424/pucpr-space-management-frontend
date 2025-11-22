@@ -8,7 +8,7 @@ import { OccupancyReport } from '../models/report.model';
   providedIn: 'root'
 })
 export class ReportService {
-  private readonly API_URL = 'http://localhost:8080/api/reports';
+  private readonly API_URL = 'http://localhost:8081/api/reports';
 
   constructor(private http: HttpClient) {}
 

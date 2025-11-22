@@ -8,7 +8,7 @@ import { Space } from '../models/space.model';
   providedIn: 'root'
 })
 export class SpaceService {
-  private readonly API_URL = 'http://localhost:8080/api/spaces';
+  private readonly API_URL = 'http://localhost:8081/api/spaces';
 
   constructor(private http: HttpClient) {}
 

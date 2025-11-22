@@ -10,7 +10,7 @@ import { CreateStudentRequest, Student } from '../models/student.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080/api';
+  private readonly API_URL = 'http://localhost:8081/api';
   private readonly TOKEN_KEY = 'auth_token';
   private readonly USER_KEY = 'user_data';
   private readonly STUDENT_KEY = 'student_data';
