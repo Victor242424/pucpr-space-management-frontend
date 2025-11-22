@@ -138,13 +138,10 @@ export class SpacesComponent implements OnInit {
     if (confirm(`Are you sure you want to delete ${space.name}?`)) {
       this.spaceService.deleteSpace(space.id).subscribe({
         next: (response) => {
-          console.log(response);
-          debugger;
           this.loadSpaces();
           this.cdr.detectChanges();
         },
         error: (error) => {
-          debugger;
           console.error('Error deleting space:', error)
           this.cdr.detectChanges();
         } 
