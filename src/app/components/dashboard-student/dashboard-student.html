@@ -7,7 +7,7 @@
           <h1 class="text-2xl font-bold text-primary-600">Space Management</h1>
         </div>
         <div class="flex items-center space-x-4">
-          <span class="text-gray-700 capitalize">{{ curerntStudent?.name }}</span>
+          <span class="text-gray-700 capitalize">{{ currentStudent?.name }}</span>
           <span *ngIf="isAdmin" class="badge badge-info">Admin</span>
           <button (click)="logout()" class="btn btn-secondary">Logout</button>
         </div>

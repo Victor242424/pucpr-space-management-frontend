@@ -33,9 +33,6 @@ export class AuthService {
           if (response.success && response.data) {
             this.setSession(response.data);
             this.currentUserSubject.next(response.data);
-            if (response.data.role === 'STUDENT') {
-              this.getStudentDataBackend(response.data.studentId!.toString()).subscribe();
-            }
           }
         })
       );
