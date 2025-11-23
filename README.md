@@ -1,216 +1,216 @@
-# PUCPR Space Management System - Frontend
+# Sistema de Gestão de Espaços PUCPR - Frontend
 
-A modern Angular-based web application for managing educational spaces, student access control, and occupancy tracking.
+Uma aplicação web moderna baseada em Angular para gerenciar espaços educacionais, controle de acesso de estudantes e rastreamento de ocupação.
 
-## 🚀 Features
+## 🚀 Funcionalidades
 
-- **User Authentication**: Secure login/registration system with JWT tokens
-- **Role-Based Access Control**: Separate dashboards for administrators and students
-- **Space Management**: Create, update, and monitor educational spaces (classrooms, laboratories, study rooms)
-- **Access Control**: Register entry/exit times for students in different spaces
-- **Real-time Occupancy Tracking**: Monitor current space occupancy and availability
-- **Reports & Analytics**: View detailed occupancy statistics and access history
-- **Student Management**: Admin panel for managing student accounts
-- **Responsive Design**: Mobile-friendly interface built with Tailwind CSS
+- **Autenticação de Usuário**: Sistema seguro de login/registro com tokens JWT
+- **Controle de Acesso Baseado em Funções**: Dashboards separados para administradores e estudantes
+- **Gestão de Espaços**: Criar, atualizar e monitorar espaços educacionais (salas de aula, laboratórios, salas de estudo)
+- **Controle de Acesso**: Registrar horários de entrada/saída dos estudantes em diferentes espaços
+- **Rastreamento de Ocupação em Tempo Real**: Monitorar a ocupação atual e disponibilidade dos espaços
+- **Relatórios e Análises**: Visualizar estatísticas detalhadas de ocupação e histórico de acesso
+- **Gestão de Estudantes**: Painel administrativo para gerenciar contas de estudantes
+- **Design Responsivo**: Interface amigável para dispositivos móveis construída com Tailwind CSS
 
-## 🛠️ Tech Stack
+## 🛠️ Stack Tecnológico
 
 - **Framework**: Angular 21.0.0
-- **Language**: TypeScript 5.9.2
-- **Styling**: Tailwind CSS 2.2.19
-- **HTTP Client**: Angular HttpClient with JWT interceptor
-- **Forms**: Reactive Forms
-- **Routing**: Angular Router with guards
-- **Testing**: Vitest 4.0.8
-- **Package Manager**: npm 10.9.3
+- **Linguagem**: TypeScript 5.9.2
+- **Estilização**: Tailwind CSS 2.2.19
+- **Cliente HTTP**: Angular HttpClient com interceptador JWT
+- **Formulários**: Reactive Forms
+- **Roteamento**: Angular Router com guards
+- **Testes**: Vitest 4.0.8
+- **Gerenciador de Pacotes**: npm 10.9.3
 
-## 📋 Prerequisites
+## 📋 Pré-requisitos
 
-- Node.js (v18 or higher)
-- npm (v10.9.3 or higher)
-- Backend API running on `http://localhost:8081`
+- Node.js (v18 ou superior)
+- npm (v10.9.3 ou superior)
+- API Backend em execução em `http://localhost:8081`
 
-## 🔧 Installation
+## 🔧 Instalação
 
-1. Clone the repository:
+1. Clone o repositório:
 ```bash
-git clone <repository-url>
+git clone <url-do-repositório>
 cd pucpr-space-management-ui
 ```
 
-2. Install dependencies:
+2. Instale as dependências:
 ```bash
 npm install
 ```
 
-3. Configure the API endpoint (if different from default):
-   - Update the `API_URL` in service files located in `src/app/services/`
-   - Default: `http://localhost:8081/api`
+3. Configure o endpoint da API (se for diferente do padrão):
+   - Atualize a `API_URL` nos arquivos de serviço localizados em `src/app/services/`
+   - Padrão: `http://localhost:8081/api`
 
-## 🏃 Running the Application
+## 🏃 Executando a Aplicação
 
-### Development Server
+### Servidor de Desenvolvimento
 
 ```bash
 npm start
-# or
+# ou
 ng serve
 ```
 
-Navigate to `http://localhost:4200/`. The application will automatically reload when you make changes to source files.
+Navegue para `http://localhost:4200/`. A aplicação recarregará automaticamente quando você fizer alterações nos arquivos fonte.
 
-### Production Build
+### Build de Produção
 
 ```bash
 npm run build
 ```
 
-Build artifacts will be stored in the `dist/` directory.
+Os artefatos de build serão armazenados no diretório `dist/`.
 
-### Running Tests
+### Executando Testes
 
 ```bash
 npm test
 ```
 
-Execute unit tests using Vitest.
+Execute testes unitários usando Vitest.
 
-## 🐳 Docker Deployment
+## 🐳 Implantação com Docker
 
-### Build and Run with Docker
+### Construir e Executar com Docker
 
-1. Build the Docker image:
+1. Construa a imagem Docker:
 ```bash
 docker build -t pucpr-space-ui .
 ```
 
-2. Run the container:
+2. Execute o container:
 ```bash
 docker run -p 4200:80 pucpr-space-ui
 ```
 
-### Using Docker Compose
+### Usando Docker Compose
 
-The application is configured to run in the `space-network` Docker network:
+A aplicação está configurada para executar na rede Docker `space-network`:
 
 ```bash
 docker-compose up -d
 ```
 
-This will:
-- Build the Angular application
-- Serve it through Nginx
-- Expose port 4200
-- Connect to the `space-network` network
+Isso irá:
+- Construir a aplicação Angular
+- Servi-la através do Nginx
+- Expor a porta 4200
+- Conectar-se à rede `space-network`
 
-**Note**: Ensure the `space-network` exists before running:
+**Nota**: Certifique-se de que a rede `space-network` existe antes de executar:
 ```bash
 docker network create space-network
 ```
 
-## 📁 Project Structure
+## 📁 Estrutura do Projeto
 
 ```
 src/
 ├── app/
-│   ├── components/          # UI Components
-│   │   ├── login/           # Login page
-│   │   ├── register/        # Registration page
-│   │   ├── dashboard/       # Admin dashboard
-│   │   ├── dashboard-student/  # Student dashboard
-│   │   ├── spaces/          # Space management
-│   │   ├── students/        # Student management
-│   │   ├── access-control/  # Entry/exit control
-│   │   ├── access-records/  # Access history
-│   │   └── reports/         # Analytics & reports
-│   ├── guards/              # Route guards
-│   │   ├── auth.guard.ts    # Authentication guard
-│   │   └── admin.guard.ts   # Admin authorization guard
-│   ├── interceptors/        # HTTP interceptors
-│   │   └── auth.interceptor.ts  # JWT token interceptor
-│   ├── models/              # TypeScript interfaces
-│   ├── services/            # API services
+│   ├── components/          # Componentes de UI
+│   │   ├── login/           # Página de login
+│   │   ├── register/        # Página de registro
+│   │   ├── dashboard/       # Dashboard do administrador
+│   │   ├── dashboard-student/  # Dashboard do estudante
+│   │   ├── spaces/          # Gestão de espaços
+│   │   ├── students/        # Gestão de estudantes
+│   │   ├── access-control/  # Controle de entrada/saída
+│   │   ├── access-records/  # Histórico de acesso
+│   │   └── reports/         # Análises e relatórios
+│   ├── guards/              # Guards de rota
+│   │   ├── auth.guard.ts    # Guard de autenticação
+│   │   └── admin.guard.ts   # Guard de autorização de administrador
+│   ├── interceptors/        # Interceptadores HTTP
+│   │   └── auth.interceptor.ts  # Interceptador de token JWT
+│   ├── models/              # Interfaces TypeScript
+│   ├── services/            # Serviços de API
 │   │   ├── auth.service.ts
 │   │   ├── space.service.ts
 │   │   ├── student.service.ts
 │   │   ├── access-record.service.ts
 │   │   └── report.service.ts
-│   ├── app.routes.ts        # Application routes
-│   └── app.config.ts        # Application configuration
-├── styles.scss              # Global styles
-└── index.html               # Main HTML file
+│   ├── app.routes.ts        # Rotas da aplicação
+│   └── app.config.ts        # Configuração da aplicação
+├── styles.scss              # Estilos globais
+└── index.html               # Arquivo HTML principal
 ```
 
-## 🔐 User Roles
+## 🔐 Funções de Usuário
 
-### Administrator
-- Full access to all features
-- Manage spaces and students
-- View all reports and analytics
-- Register entry/exit for any student
+### Administrador
+- Acesso total a todas as funcionalidades
+- Gerenciar espaços e estudantes
+- Visualizar todos os relatórios e análises
+- Registrar entrada/saída para qualquer estudante
 
-### Student
-- View personal dashboard
-- Register own entry/exit
-- View available spaces
+### Estudante
+- Visualizar dashboard pessoal
+- Registrar própria entrada/saída
+- Visualizar espaços disponíveis
 
-## 🎨 UI Components
+## 🎨 Componentes de UI
 
-The application uses a custom design system built with Tailwind CSS:
+A aplicação utiliza um sistema de design personalizado construído com Tailwind CSS:
 
-- **Buttons**: `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-danger`, `.btn-success`
-- **Forms**: `.input`, `.label`, `.input-error`
-- **Cards**: `.card`
-- **Badges**: `.badge`, `.badge-success`, `.badge-warning`, `.badge-danger`, `.badge-info`
-- **Tables**: `.table`, `.table-container`
+- **Botões**: `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-danger`, `.btn-success`
+- **Formulários**: `.input`, `.label`, `.input-error`
+- **Cartões**: `.card`
+- **Distintivos**: `.badge`, `.badge-success`, `.badge-warning`, `.badge-danger`, `.badge-info`
+- **Tabelas**: `.table`, `.table-container`
 
-## 🔌 API Integration
+## 🔌 Integração com API
 
-The frontend integrates with the following API endpoints:
+O frontend integra-se com os seguintes endpoints da API:
 
-- **Authentication**: `/api/auth/login`, `/api/auth/register`
-- **Spaces**: `/api/spaces`
-- **Students**: `/api/students`
-- **Access Records**: `/api/access`
-- **Reports**: `/api/reports/occupancy`
+- **Autenticação**: `/api/auth/login`, `/api/auth/register`
+- **Espaços**: `/api/spaces`
+- **Estudantes**: `/api/students`
+- **Registros de Acesso**: `/api/access`
+- **Relatórios**: `/api/reports/occupancy`
 
-All API requests include JWT authentication token in the Authorization header.
+Todas as requisições à API incluem o token de autenticação JWT no cabeçalho Authorization.
 
-## 🧪 Testing
+## 🧪 Testes
 
-The project uses Vitest for unit testing with the following configuration:
+O projeto utiliza Vitest para testes unitários com a seguinte configuração:
 
-- Test files: `*.spec.ts`
-- Coverage provider: v8
-- Environment: jsdom
-- Global test utilities available
+- Arquivos de teste: `*.spec.ts`
+- Provedor de cobertura: v8
+- Ambiente: jsdom
+- Utilitários de teste globais disponíveis
 
-Run tests with coverage:
+Execute testes com cobertura:
 ```bash
 npm test -- --coverage
 ```
 
-## 🚢 Production Deployment
+## 🚢 Implantação em Produção
 
-### Nginx Configuration
+### Configuração Nginx
 
-The included `nginx.conf` provides:
-- SPA routing support (redirects to index.html)
-- Gzip compression
-- Static file serving
+O `nginx.conf` incluído fornece:
+- Suporte a roteamento SPA (redireciona para index.html)
+- Compressão Gzip
+- Servimento de arquivos estáticos
 
-### Environment Variables
+### Variáveis de Ambiente
 
-For production, update the API URLs in the service files or use environment-specific configurations.
+Para produção, atualize as URLs da API nos arquivos de serviço ou use configurações específicas por ambiente.
 
-## 📝 Code Style
+## 📝 Estilo de Código
 
-The project follows these conventions:
+O projeto segue estas convenções:
 
-- **EditorConfig**: Consistent coding styles (2 spaces, UTF-8, LF)
-- **TypeScript**: Strict mode enabled
-- **Prettier**: Code formatting (single quotes, 100 char line width)
+- **EditorConfig**: Estilos de codificação consistentes (2 espaços, UTF-8, LF)
+- **TypeScript**: Modo estrito ativado
+- **Prettier**: Formatação de código (aspas simples, largura de linha de 100 caracteres)
 
-## 📄 License
+## 📄 Licença
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+Este projeto está licenciado sob a Licença Apache 2.0 - veja o arquivo [LICENSE](LICENSE) para detalhes.
