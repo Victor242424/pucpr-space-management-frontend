@@ -59,7 +59,7 @@ export class StudentsComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error('Erro ao carregar estudantes:', error);
+        console.error('Error loading students:', error);
         this.isLoading = false;
         this.cdr.detectChanges();
       }
@@ -102,7 +102,7 @@ export class StudentsComponent implements OnInit {
           this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error('Erro ao atualizar estudante:', error);
+          console.error('Error updating student:', error);
           this.cdr.detectChanges();
         }
       });
@@ -110,14 +110,14 @@ export class StudentsComponent implements OnInit {
   }
 
   deleteStudent(student: Student): void {
-    if (confirm(`Tem certeza que deseja excluir ${student.name}?`)) {
+    if (confirm(`Are you sure you want to delete ${student.name}?`)) {
       this.studentService.deleteStudent(student.id).subscribe({
         next: () => {
           this.loadStudents();
           this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error('Erro ao excluir estudante:', error);
+          console.error('Error deleting student:', error);
           this.cdr.detectChanges();
         }
       });
@@ -131,14 +131,5 @@ export class StudentsComponent implements OnInit {
       'SUSPENDED': 'badge-danger'
     };
     return `badge ${classes[status]}`;
-  }
-
-  getStatusLabel(status: string): string {
-    const labels: any = {
-      'ACTIVE': 'Ativo',
-      'INACTIVE': 'Inativo',
-      'SUSPENDED': 'Suspenso'
-    };
-    return labels[status] || status;
   }
 }

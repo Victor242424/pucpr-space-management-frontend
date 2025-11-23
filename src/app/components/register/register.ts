@@ -57,14 +57,14 @@ export class RegisterComponent {
     this.authService.register(registerData).subscribe({
       next: (response) => {
         if (response.success) {
-          this.successMessage = 'Cadastro realizado com sucesso! Redirecionando para o login...';
+          this.successMessage = 'Registration successful! Redirecting to login...';
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 2000);
         }
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Falha no cadastro. Por favor, tente novamente.';
+        this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
         this.isLoading = false;
         this.cdr.detectChanges();
       },

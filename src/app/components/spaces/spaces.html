@@ -3,12 +3,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <a routerLink="/dashboard" class="text-primary-600 hover:text-primary-700 mr-4">← Voltar</a>
-          <h1 class="text-2xl font-bold text-gray-800">Gerenciamento de Espaços</h1>
+          <a routerLink="/dashboard" class="text-primary-600 hover:text-primary-700 mr-4">← Back</a>
+          <h1 class="text-2xl font-bold text-gray-800">Spaces Management</h1>
         </div>
         <div class="flex items-center">
           <button *ngIf="isAdmin" (click)="openCreateModal()" class="btn btn-primary">
-            + Novo Espaço
+            + New Space
           </button>
         </div>
       </div>
@@ -22,7 +22,7 @@
         type="text"
         [(ngModel)]="searchTerm"
         (ngModelChange)="filterSpaces()"
-        placeholder="Buscar por nome, código ou prédio..."
+        placeholder="Search by name, code, or building..."
         class="input max-w-md"
       />
     </div>
@@ -40,24 +40,24 @@
             <h3 class="text-xl font-semibold text-gray-800">{{ space.name }}</h3>
             <p class="text-sm text-gray-500">{{ space.code }}</p>
           </div>
-          <span [class]="getStatusBadgeClass(space.status)">{{ getStatusLabel(space.status) }}</span>
+          <span [class]="getStatusBadgeClass(space.status)">{{ space.status }}</span>
         </div>
 
         <div class="space-y-2 text-sm">
           <div class="flex justify-between">
-            <span class="text-gray-600">Tipo:</span>
+            <span class="text-gray-600">Type:</span>
             <span class="font-medium">{{ getTypeLabel(space.type) }}</span>
           </div>
           <div class="flex justify-between">
-            <span class="text-gray-600">Capacidade:</span>
-            <span class="font-medium">{{ space.capacity }} pessoas</span>
+            <span class="text-gray-600">Capacity:</span>
+            <span class="font-medium">{{ space.capacity }} people</span>
           </div>
           <div class="flex justify-between">
-            <span class="text-gray-600">Atual:</span>
+            <span class="text-gray-600">Current:</span>
             <span class="font-medium">{{ space.currentOccupancy }}/{{ space.capacity }}</span>
           </div>
           <div *ngIf="space.building" class="flex justify-between">
-            <span class="text-gray-600">Prédio:</span>
+            <span class="text-gray-600">Building:</span>
             <span class="font-medium">{{ space.building }}</span>
           </div>
         </div>
@@ -68,10 +68,10 @@
 
         <div *ngIf="isAdmin" class="mt-4 flex gap-2">
           <button (click)="openEditModal(space)" class="btn btn-secondary flex-1 text-sm py-2">
-            Editar
+            Edit
           </button>
           <button (click)="deleteSpace(space)" class="btn btn-danger flex-1 text-sm py-2">
-            Excluir
+            Delete/Unavailable
           </button>
         </div>
       </div>
@@ -79,7 +79,7 @@
 
     <!-- Empty State -->
     <div *ngIf="!isLoading && filteredSpaces.length === 0" class="text-center py-12">
-      <p class="text-gray-500 text-lg">Nenhum espaço encontrado</p>
+      <p class="text-gray-500 text-lg">No spaces found</p>
     </div>
   </div>
 
@@ -87,12 +87,12 @@
   <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
       <div class="p-6">
-        <h2 class="text-2xl font-bold mb-4">{{ isEditMode ? 'Editar' : 'Criar' }} Espaço</h2>
+        <h2 class="text-2xl font-bold mb-4">{{ isEditMode ? 'Edit' : 'Create' }} Space</h2>
         
         <form [formGroup]="spaceForm" (ngSubmit)="onSubmit()">
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="label">Código *</label>
+              <label class="label">Code *</label>
               <input 
                 type="text" 
                 formControlName="code" 
@@ -100,11 +100,11 @@
                 [class.input-error]="spaceForm.get('code')?.invalid && spaceForm.get('code')?.touched" />
               <div *ngIf="spaceForm.get('code')?.invalid && spaceForm.get('code')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="spaceForm.get('code')?.errors?.['required']">Código é obrigatório</span>
+                <span *ngIf="spaceForm.get('code')?.errors?.['required']">Code is required</span>
               </div>
             </div>
             <div>
-              <label class="label">Nome *</label>
+              <label class="label">Name *</label>
               <input 
                 type="text" 
                 formControlName="name" 
@@ -112,25 +112,25 @@
                 [class.input-error]="spaceForm.get('name')?.invalid && spaceForm.get('name')?.touched" />
               <div *ngIf="spaceForm.get('name')?.invalid && spaceForm.get('name')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="spaceForm.get('name')?.errors?.['required']">Nome é obrigatório</span>
+                <span *ngIf="spaceForm.get('name')?.errors?.['required']">Name is required</span>
               </div>
             </div>
             <div>
-              <label class="label">Tipo *</label>
+              <label class="label">Type *</label>
               <select 
                 formControlName="type" 
                 class="input"
                 [class.input-error]="spaceForm.get('type')?.invalid && spaceForm.get('type')?.touched">
-                <option value="">Selecione o tipo</option>
+                <option value="">Select type</option>
                 <option *ngFor="let type of spaceTypes" [value]="type">{{ getTypeLabel(type) }}</option>
               </select>
               <div *ngIf="spaceForm.get('type')?.invalid && spaceForm.get('type')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="spaceForm.get('type')?.errors?.['required']">Tipo é obrigatório</span>
+                <span *ngIf="spaceForm.get('type')?.errors?.['required']">Type is required</span>
               </div>
             </div>
             <div>
-              <label class="label">Capacidade *</label>
+              <label class="label">Capacity *</label>
               <input 
                 type="number" 
                 formControlName="capacity" 
@@ -139,36 +139,36 @@
                 [class.input-error]="spaceForm.get('capacity')?.invalid && spaceForm.get('capacity')?.touched" />
               <div *ngIf="spaceForm.get('capacity')?.invalid && spaceForm.get('capacity')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="spaceForm.get('capacity')?.errors?.['required']">Capacidade é obrigatória</span>
-                <span *ngIf="spaceForm.get('capacity')?.errors?.['min']">A capacidade deve ser pelo menos 1</span>
+                <span *ngIf="spaceForm.get('capacity')?.errors?.['required']">Capacity is required</span>
+                <span *ngIf="spaceForm.get('capacity')?.errors?.['min']">Capacity must be at least 1</span>
               </div>
             </div>
             <div>
-              <label class="label">Prédio</label>
+              <label class="label">Building</label>
               <input type="text" formControlName="building" class="input" />
             </div>
             <div>
-              <label class="label">Andar</label>
+              <label class="label">Floor</label>
               <input type="text" formControlName="floor" class="input" />
             </div>
             <div *ngIf="isEditMode" class="col-span-2">
               <label class="label">Status</label>
               <select formControlName="status" class="input">
-                <option *ngFor="let status of spaceStatuses" [value]="status">{{ getStatusLabel(status) }}</option>
+                <option *ngFor="let status of spaceStatuses" [value]="status">{{ status }}</option>
               </select>
             </div>
             <div class="col-span-2">
-              <label class="label">Descrição</label>
+              <label class="label">Description</label>
               <textarea formControlName="description" class="input" rows="3"></textarea>
             </div>
           </div>
 
           <div class="flex gap-3 mt-6">
             <button type="submit" [disabled]="spaceForm.invalid" class="btn btn-primary flex-1">
-              {{ isEditMode ? 'Atualizar' : 'Criar' }}
+              {{ isEditMode ? 'Update' : 'Create' }}
             </button>
             <button type="button" (click)="closeModal()" class="btn btn-secondary flex-1">
-              Cancelar
+              Cancel
             </button>
           </div>
         </form>

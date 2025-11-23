@@ -2,10 +2,10 @@
   <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-2xl">
     <div>
       <h2 class="text-center text-3xl font-extrabold text-gray-900">
-        Criar Nova Conta
+        Create New Account
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
-        Registre-se como novo estudante
+        Register as a new student
       </p>
     </div>
 
@@ -20,99 +20,99 @@
 
       <div class="space-y-4">
         <div>
-          <label for="registrationNumber" class="label">Número de Matrícula</label>
+          <label for="registrationNumber" class="label">Registration Number</label>
           <input
             id="registrationNumber"
             type="text"
             formControlName="registrationNumber"
             class="input"
             [class.input-error]="registerForm.get('registrationNumber')?.invalid && registerForm.get('registrationNumber')?.touched"
-            placeholder="ex: 2024001"
+            placeholder="e.g., 2024001"
           />
           <div *ngIf="registerForm.get('registrationNumber')?.invalid && registerForm.get('registrationNumber')?.touched" 
                class="text-red-500 text-xs mt-1">
-            <span *ngIf="registerForm.get('registrationNumber')?.errors?.['required']">Número de matrícula é obrigatório</span>
+            <span *ngIf="registerForm.get('registrationNumber')?.errors?.['required']">Registration number is required</span>
           </div>
         </div>
 
         <div>
-          <label for="name" class="label">Nome Completo</label>
+          <label for="name" class="label">Full Name</label>
           <input
             id="name"
             type="text"
             formControlName="name"
             class="input"
             [class.input-error]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
-            placeholder="João Silva"
+            placeholder="John Doe"
           />
           <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" 
                class="text-red-500 text-xs mt-1">
-            <span *ngIf="registerForm.get('name')?.errors?.['required']">Nome completo é obrigatório</span>
+            <span *ngIf="registerForm.get('name')?.errors?.['required']">Full name is required</span>
           </div>
         </div>
 
         <div>
-          <label for="email" class="label">E-mail</label>
+          <label for="email" class="label">Email</label>
           <input
             id="email"
             type="email"
             formControlName="email"
             class="input"
             [class.input-error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
-            placeholder="joao@exemplo.com"
+            placeholder="john@example.com"
           />
           <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" 
                class="text-red-500 text-xs mt-1">
-            <span *ngIf="registerForm.get('email')?.errors?.['required']">E-mail é obrigatório</span>
-            <span *ngIf="registerForm.get('email')?.errors?.['email']">Por favor, insira um endereço de e-mail válido</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
           </div>
         </div>
 
         <div>
-          <label for="phoneNumber" class="label">Número de Telefone (Opcional)</label>
+          <label for="phoneNumber" class="label">Phone Number (Optional)</label>
           <input
             id="phoneNumber"
             type="tel"
             formControlName="phoneNumber"
             class="input"
-            placeholder="+5511999999999"
+            placeholder="+1234567890"
           />
         </div>
 
         <div>
-          <label for="password" class="label">Senha</label>
+          <label for="password" class="label">Password</label>
           <input
             id="password"
             type="password"
             formControlName="password"
             class="input"
             [class.input-error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-            placeholder="Mínimo 6 caracteres"
+            placeholder="Minimum 6 characters"
           />
           <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" 
                class="text-red-500 text-xs mt-1">
-            <span *ngIf="registerForm.get('password')?.errors?.['required']">Senha é obrigatória</span>
-            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">A senha deve ter pelo menos 6 caracteres</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
           </div>
         </div>
 
         <div>
-          <label for="confirmPassword" class="label">Confirmar Senha</label>
+          <label for="confirmPassword" class="label">Confirm Password</label>
           <input
             id="confirmPassword"
             type="password"
             formControlName="confirmPassword"
             class="input"
             [class.input-error]="(registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) || registerForm.errors?.['passwordMismatch']"
-            placeholder="Repita sua senha"
+            placeholder="Repeat your password"
           />
           <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched" 
                class="text-red-500 text-xs mt-1">
-            <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Por favor, confirme sua senha</span>
+            <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Please confirm your password</span>
           </div>
           <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" 
                class="text-red-500 text-xs mt-1">
-            As senhas não coincidem
+            Passwords do not match
           </div>
         </div>
       </div>
@@ -123,19 +123,19 @@
           [disabled]="registerForm.invalid || isLoading"
           class="btn btn-primary w-full py-3 text-base"
         >
-          <span *ngIf="!isLoading">Cadastrar</span>
+          <span *ngIf="!isLoading">Register</span>
           <span *ngIf="isLoading" class="flex items-center justify-center">
             <div class="spinner w-5 h-5 border-2 mr-2"></div>
-            Cadastrando...
+            Registering...
           </span>
         </button>
       </div>
 
       <div class="text-center">
         <p class="text-sm text-gray-600">
-          Já tem uma conta?
+          Already have an account?
           <button type="button" (click)="navigateToLogin()" class="text-secondary-600 hover:text-secondary-700 font-medium">
-            Entre aqui
+            Sign in here
           </button>
         </p>
       </div>

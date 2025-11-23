@@ -4,12 +4,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <h1 class="text-2xl font-bold text-primary-600">Gerenciamento de Espaços</h1>
+          <h1 class="text-2xl font-bold text-primary-600">Space Management</h1>
         </div>
         <div class="flex items-center space-x-4">
           <span class="text-gray-700 capitalize">{{ currentUser?.username }}</span>
           <span *ngIf="isAdmin" class="badge badge-info">Admin</span>
-          <button (click)="logout()" class="btn btn-secondary">Sair</button>
+          <button (click)="logout()" class="btn btn-secondary">Logout</button>
         </div>
       </div>
     </div>
@@ -21,58 +21,58 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
       <div class="card bg-gradient-to-br from-blue-500 to-blue-600 text-white">
         <div class="text-3xl font-bold">{{ stats.totalSpaces }}</div>
-        <div class="text-blue-100 mt-1">Total de Espaços</div>
+        <div class="text-blue-100 mt-1">Total Spaces</div>
       </div>
       <div class="card bg-gradient-to-br from-green-500 to-green-600 text-white">
         <div class="text-3xl font-bold">{{ stats.availableSpaces }}</div>
-        <div class="text-green-100 mt-1">Disponíveis</div>
+        <div class="text-green-100 mt-1">Available</div>
       </div>
       <div class="card bg-gradient-to-br from-yellow-500 to-yellow-600 text-white">
         <div class="text-3xl font-bold">{{ stats.occupiedSpaces }}</div>
-        <div class="text-yellow-100 mt-1">Ocupados</div>
+        <div class="text-yellow-100 mt-1">Occupied</div>
       </div>
       <div class="card bg-gradient-to-br from-purple-500 to-purple-600 text-white">
         <div class="text-3xl font-bold">{{ stats.activeUsers }}</div>
-        <div class="text-purple-100 mt-1">Usuários Ativos</div>
+        <div class="text-purple-100 mt-1">Active Users</div>
       </div>
     </div>
 
     <!-- Navigation Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       <a routerLink="/spaces" class="card hover:shadow-lg transition-shadow cursor-pointer">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">📚 Espaços</h3>
-        <p class="text-gray-600">Visualizar e gerenciar espaços educacionais</p>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">📚 Spaces</h3>
+        <p class="text-gray-600">View and manage educational spaces</p>
       </a>
 
       <a routerLink="/access" class="card hover:shadow-lg transition-shadow cursor-pointer">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">🚪 Controle de Acesso</h3>
-        <p class="text-gray-600">Registrar entrada e saída</p>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">🚪 Access Control</h3>
+        <p class="text-gray-600">Register entry and exit</p>
       </a>
 
       <a routerLink="/reports" class="card hover:shadow-lg transition-shadow cursor-pointer">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">📊 Relatórios</h3>
-        <p class="text-gray-600">Ver estatísticas de ocupação</p>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">📊 Reports</h3>
+        <p class="text-gray-600">View occupancy statistics</p>
       </a>
 
       <a *ngIf="isAdmin" routerLink="/students" class="card hover:shadow-lg transition-shadow cursor-pointer">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">👥 Estudantes</h3>
-        <p class="text-gray-600">Gerenciar contas de estudantes</p>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">👥 Students</h3>
+        <p class="text-gray-600">Manage student accounts</p>
       </a>
 
       <a routerLink="/history" class="card hover:shadow-lg transition-shadow cursor-pointer">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">📜 Histórico</h3>
-        <p class="text-gray-600">Ver histórico de acessos</p>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">📜 History</h3>
+        <p class="text-gray-600">View access history</p>
       </a>
     </div>
 
     <!-- Current Occupancy -->
     <div class="card">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Ocupação Atual dos Espaços</h2>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Current Space Occupancy</h2>
       <div *ngIf="isLoading" class="flex justify-center py-8">
         <div class="spinner"></div>
       </div>
       <div *ngIf="!isLoading && occupancyReports.length === 0" class="text-center py-8 text-gray-500">
-        Nenhum espaço disponível
+        No spaces available
       </div>
       <div *ngIf="!isLoading && occupancyReports.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div *ngFor="let report of occupancyReports" class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
@@ -85,7 +85,7 @@
           </div>
           <div class="mt-2">
             <div class="flex justify-between text-sm mb-1">
-              <span class="text-gray-600">Ocupação</span>
+              <span class="text-gray-600">Occupancy</span>
               <span [class]="getOccupancyColor(report.occupancyRate)" class="font-semibold">
                 {{ report.occupancyRate }}%
               </span>

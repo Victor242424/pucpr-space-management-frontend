@@ -3,12 +3,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <a [routerLink]="getDashboardLink()" class="text-primary-600 hover:text-primary-700 mr-4">← Voltar</a>
-          <h1 class="text-2xl font-bold text-gray-800">Histórico de Registros de Acesso</h1>
+          <a [routerLink]="getDashboardLink()" class="text-primary-600 hover:text-primary-700 mr-4">← Back</a>
+          <h1 class="text-2xl font-bold text-gray-800">Access Records History</h1>
         </div>
         <div class="flex items-center">
           <button (click)="exportToCSV()" class="btn btn-secondary text-sm">
-            📥 Exportar CSV
+            📥 Export CSV
           </button>
         </div>
       </div>
@@ -20,29 +20,29 @@
     <div class="card mb-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label class="label">Buscar</label>
+          <label class="label">Search</label>
           <input
             type="text"
             [(ngModel)]="searchTerm"
             (ngModelChange)="applyFilters()"
-            placeholder="Buscar por estudante, espaço ou código..."
+            placeholder="Search by student, space, or code..."
             class="input"
           />
         </div>
         
         <div>
-          <label class="label">Filtro de Status</label>
+          <label class="label">Status Filter</label>
           <select [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()" class="input">
-            <option value="ALL">Todos os Status</option>
-            <option value="ACTIVE">Ativo</option>
-            <option value="COMPLETED">Concluído</option>
-            <option value="CANCELLED">Cancelado</option>
+            <option value="ALL">All Status</option>
+            <option value="ACTIVE">Active</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
           </select>
         </div>
 
         <div class="flex items-end">
           <div class="bg-blue-50 p-3 rounded-lg w-full">
-            <div class="text-sm text-blue-600 mb-1">Total de Registros</div>
+            <div class="text-sm text-blue-600 mb-1">Total Records</div>
             <div class="text-2xl font-bold text-blue-900">{{ filteredRecords.length }}</div>
           </div>
         </div>
@@ -56,7 +56,7 @@
 
     <!-- Empty State -->
     <div *ngIf="!isLoading && filteredRecords.length === 0" class="text-center py-12">
-      <p class="text-gray-500 text-lg">Nenhum registro de acesso encontrado</p>
+      <p class="text-gray-500 text-lg">No access records found</p>
     </div>
 
     <!-- Records Table -->
@@ -66,13 +66,13 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>Estudante</th>
-              <th>Espaço</th>
-              <th>Horário de Entrada</th>
-              <th>Horário de Saída</th>
-              <th>Duração</th>
+              <th>Student</th>
+              <th>Space</th>
+              <th>Entry Time</th>
+              <th>Exit Time</th>
+              <th>Duration</th>
               <th>Status</th>
-              <th>Ações</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -103,14 +103,14 @@
                 </span>
               </td>
               <td>
-                <span [class]="getStatusBadgeClass(record.status)">{{ getStatusLabel(record.status) }}</span>
+                <span [class]="getStatusBadgeClass(record.status)">{{ record.status }}</span>
               </td>
               <td>
                 <button 
                   (click)="openDetailModal(record)" 
                   class="btn btn-secondary text-sm py-1 px-3"
                 >
-                  Detalhes
+                  Details
                 </button>
               </td>
             </tr>
@@ -125,29 +125,29 @@
     <div class="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
       <div class="p-6">
         <div class="flex justify-between items-start mb-6">
-          <h2 class="text-2xl font-bold text-gray-800">Detalhes do Registro de Acesso</h2>
+          <h2 class="text-2xl font-bold text-gray-800">Access Record Details</h2>
           <span [class]="getStatusBadgeClass(selectedRecord.status)">
-            {{ getStatusLabel(selectedRecord.status) }}
+            {{ selectedRecord.status }}
           </span>
         </div>
         
         <div class="space-y-6">
           <!-- Record ID -->
           <div class="bg-gray-50 p-4 rounded-lg">
-            <div class="text-sm text-gray-600 mb-1">ID do Registro</div>
+            <div class="text-sm text-gray-600 mb-1">Record ID</div>
             <div class="text-xl font-bold font-mono text-gray-900">#{{ selectedRecord.id }}</div>
           </div>
 
           <!-- Student Information -->
           <div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Informações do Estudante</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Student Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="bg-blue-50 p-4 rounded-lg">
-                <div class="text-sm text-blue-600 mb-1">Nome</div>
+                <div class="text-sm text-blue-600 mb-1">Name</div>
                 <div class="font-semibold text-blue-900">{{ selectedRecord.studentName }}</div>
               </div>
               <div class="bg-blue-50 p-4 rounded-lg">
-                <div class="text-sm text-blue-600 mb-1">Número de Matrícula</div>
+                <div class="text-sm text-blue-600 mb-1">Registration Number</div>
                 <div class="font-semibold text-blue-900">{{ selectedRecord.studentRegistrationNumber }}</div>
               </div>
             </div>
@@ -155,14 +155,14 @@
 
           <!-- Space Information -->
           <div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Informações do Espaço</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Space Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="bg-purple-50 p-4 rounded-lg">
-                <div class="text-sm text-purple-600 mb-1">Nome do Espaço</div>
+                <div class="text-sm text-purple-600 mb-1">Space Name</div>
                 <div class="font-semibold text-purple-900">{{ selectedRecord.spaceName }}</div>
               </div>
               <div class="bg-purple-50 p-4 rounded-lg">
-                <div class="text-sm text-purple-600 mb-1">Código do Espaço</div>
+                <div class="text-sm text-purple-600 mb-1">Space Code</div>
                 <div class="font-semibold text-purple-900">{{ selectedRecord.spaceCode }}</div>
               </div>
             </div>
@@ -170,26 +170,26 @@
 
           <!-- Time Information -->
           <div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Informações de Horário</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Time Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div class="bg-green-50 p-4 rounded-lg">
-                <div class="text-sm text-green-600 mb-1">Horário de Entrada</div>
+                <div class="text-sm text-green-600 mb-1">Entry Time</div>
                 <div class="font-semibold text-green-900 text-sm">
                   {{ selectedRecord.entryTime | date:'medium' }}
                 </div>
               </div>
               <div class="bg-orange-50 p-4 rounded-lg">
-                <div class="text-sm text-orange-600 mb-1">Horário de Saída</div>
+                <div class="text-sm text-orange-600 mb-1">Exit Time</div>
                 <div class="font-semibold text-orange-900 text-sm">
                   <span *ngIf="selectedRecord.exitTime">{{ selectedRecord.exitTime | date:'medium' }}</span>
-                  <span *ngIf="!selectedRecord.exitTime" class="text-orange-400">Ainda Ativo</span>
+                  <span *ngIf="!selectedRecord.exitTime" class="text-orange-400">Still Active</span>
                 </div>
               </div>
               <div class="bg-indigo-50 p-4 rounded-lg">
-                <div class="text-sm text-indigo-600 mb-1">Duração</div>
+                <div class="text-sm text-indigo-600 mb-1">Duration</div>
                 <div class="font-semibold text-indigo-900">
                   <span *ngIf="selectedRecord.durationInMinutes">
-                    {{ selectedRecord.durationInMinutes }} minutos
+                    {{ selectedRecord.durationInMinutes }} minutes
                   </span>
                   <span *ngIf="!selectedRecord.durationInMinutes && selectedRecord.status === 'ACTIVE'">
                     {{ getElapsedTime(selectedRecord.entryTime) }}
@@ -204,20 +204,20 @@
 
           <!-- Notes -->
           <div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Observações</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Notes</h3>
             <div class="bg-gray-50 p-4 rounded-lg">
               <p class="text-gray-700">
-                {{ selectedRecord.notes || 'Nenhuma observação disponível' }}
+                {{ selectedRecord.notes || 'No notes available' }}
               </p>
             </div>
           </div>
 
           <!-- Metadata -->
           <div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Metadados</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Metadata</h3>
             <div class="bg-gray-50 p-4 rounded-lg">
               <div class="text-sm text-gray-600">
-                Criado em: <span class="font-medium text-gray-900">{{ selectedRecord.createdAt | date:'medium' }}</span>
+                Created at: <span class="font-medium text-gray-900">{{ selectedRecord.createdAt | date:'medium' }}</span>
               </div>
             </div>
           </div>
@@ -225,7 +225,7 @@
 
         <div class="flex gap-3 mt-6">
           <button type="button" (click)="closeModal()" class="btn btn-primary w-full">
-            Fechar
+            Close
           </button>
         </div>
       </div>

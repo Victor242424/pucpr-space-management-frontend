@@ -3,8 +3,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <a routerLink="/dashboard" class="text-primary-600 hover:text-primary-700 mr-4">← Voltar</a>
-          <h1 class="text-2xl font-bold text-gray-800">Gerenciamento de Estudantes</h1>
+          <a routerLink="/dashboard" class="text-primary-600 hover:text-primary-700 mr-4">← Back</a>
+          <h1 class="text-2xl font-bold text-gray-800">Students Management</h1>
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
         type="text"
         [(ngModel)]="searchTerm"
         (ngModelChange)="filterStudents()"
-        placeholder="Buscar por nome, número de matrícula ou e-mail..."
+        placeholder="Search by name, registration number, or email..."
         class="input max-w-md"
       />
     </div>
@@ -35,7 +35,7 @@
             <h3 class="text-xl font-semibold text-gray-800">{{ student.name }}</h3>
             <p class="text-sm text-gray-500">{{ student.registrationNumber }}</p>
           </div>
-          <span [class]="getStatusBadgeClass(student.status)">{{ getStatusLabel(student.status) }}</span>
+          <span [class]="getStatusBadgeClass(student.status)">{{ student.status }}</span>
         </div>
 
         <div class="space-y-2 text-sm">
@@ -55,10 +55,10 @@
 
         <div *ngIf="isAdmin" class="mt-4 flex gap-2">
           <button (click)="openEditModal(student)" class="btn btn-secondary flex-1 text-sm py-2">
-            Editar
+            Edit
           </button>
           <button (click)="deleteStudent(student)" class="btn btn-danger flex-1 text-sm py-2">
-            Excluir
+            Delete
           </button>
         </div>
       </div>
@@ -66,7 +66,7 @@
 
     <!-- Empty State -->
     <div *ngIf="!isLoading && filteredStudents.length === 0" class="text-center py-12">
-      <p class="text-gray-500 text-lg">Nenhum estudante encontrado</p>
+      <p class="text-gray-500 text-lg">No students found</p>
     </div>
   </div>
 
@@ -74,12 +74,12 @@
   <div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
       <div class="p-6">
-        <h2 class="text-2xl font-bold mb-4">Editar Estudante</h2>
+        <h2 class="text-2xl font-bold mb-4">Edit Student</h2>
         
         <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
           <div class="grid grid-cols-1 gap-4">
             <div>
-              <label class="label">Número de Matrícula *</label>
+              <label class="label">Registration Number *</label>
               <input 
                 type="text" 
                 formControlName="registrationNumber" 
@@ -88,7 +88,7 @@
             </div>
             
             <div>
-              <label class="label">Nome Completo *</label>
+              <label class="label">Full Name *</label>
               <input 
                 type="text" 
                 formControlName="name" 
@@ -96,12 +96,12 @@
                 [class.input-error]="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" />
               <div *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="studentForm.get('name')?.errors?.['required']">Nome completo é obrigatório</span>
+                <span *ngIf="studentForm.get('name')?.errors?.['required']">Full name is required</span>
               </div>
             </div>
             
             <div>
-              <label class="label">E-mail *</label>
+              <label class="label">Email *</label>
               <input 
                 type="email" 
                 formControlName="email" 
@@ -109,30 +109,30 @@
                 [class.input-error]="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" />
               <div *ngIf="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="studentForm.get('email')?.errors?.['required']">E-mail é obrigatório</span>
-                <span *ngIf="studentForm.get('email')?.errors?.['email']">Por favor, insira um endereço de e-mail válido</span>
+                <span *ngIf="studentForm.get('email')?.errors?.['required']">Email is required</span>
+                <span *ngIf="studentForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
               </div>
             </div>
             
             <div>
-              <label class="label">Número de Telefone</label>
+              <label class="label">Phone Number</label>
               <input type="tel" formControlName="phoneNumber" class="input" />
             </div>
             
             <div>
               <label class="label">Status *</label>
               <select formControlName="status" class="input">
-                <option *ngFor="let status of studentStatuses" [value]="status">{{ getStatusLabel(status) }}</option>
+                <option *ngFor="let status of studentStatuses" [value]="status">{{ status }}</option>
               </select>
             </div>
           </div>
 
           <div class="flex gap-3 mt-6">
             <button type="submit" [disabled]="studentForm.invalid" class="btn btn-primary flex-1">
-              Atualizar
+              Update
             </button>
             <button type="button" (click)="closeModal()" class="btn btn-secondary flex-1">
-              Cancelar
+              Cancel
             </button>
           </div>
         </form>

@@ -47,7 +47,7 @@ export class AccessRecordsComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error('Erro ao carregar registros de acesso:', error);
+        console.error('Error loading access records:', error);
         this.isLoading = false;
         this.cdr.detectChanges();
       }
@@ -95,15 +95,6 @@ export class AccessRecordsComponent implements OnInit {
     return `badge ${classes[status] || 'badge-gray'}`;
   }
 
-  getStatusLabel(status: string): string {
-    const labels: any = {
-      'ACTIVE': 'Ativo',
-      'COMPLETED': 'Concluído',
-      'CANCELLED': 'Cancelado'
-    };
-    return labels[status] || status;
-  }
-
   getElapsedTime(entryTime: string, exitTime?: string): string {
     const entry = new Date(entryTime);
     const exit = exitTime ? new Date(exitTime) : new Date();
@@ -123,7 +114,7 @@ export class AccessRecordsComponent implements OnInit {
   }
 
   exportToCSV(): void {
-    const headers = ['ID', 'Estudante', 'Matrícula', 'Espaço', 'Código', 'Horário de Entrada', 'Horário de Saída', 'Duração (min)', 'Status', 'Observações'];
+    const headers = ['ID', 'Student', 'Registration', 'Space', 'Code', 'Entry Time', 'Exit Time', 'Duration (min)', 'Status', 'Notes'];
     const rows = this.filteredRecords.map(record => [
       record.id,
       record.studentName,
@@ -133,7 +124,7 @@ export class AccessRecordsComponent implements OnInit {
       record.entryTime,
       record.exitTime || '-',
       record.durationInMinutes || '-',
-      this.getStatusLabel(record.status),
+      record.status,
       record.notes || '-'
     ]);
 
@@ -146,7 +137,7 @@ export class AccessRecordsComponent implements OnInit {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `registros-acesso-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `access-records-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   }
