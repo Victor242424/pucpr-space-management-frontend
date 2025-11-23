@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pucpr-space-ui
+    ports:
+      - "4200:80"
+    networks:
+      - space-network
+    restart: unless-stopped
+
+networks:
+  space-network:
+    external: true
