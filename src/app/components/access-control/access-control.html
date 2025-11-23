@@ -25,12 +25,19 @@
           <div class="space-y-4">
             <div *ngIf="isAdmin">
               <label class="label">Student *</label>
-              <select formControlName="studentId" class="input">
+              <select 
+                formControlName="studentId" 
+                class="input"
+                [class.input-error]="entryForm.get('studentId')?.invalid && entryForm.get('studentId')?.touched">
                 <option value="">Select a student</option>
                 <option *ngFor="let student of students" [value]="student.id">
                   {{ student.name }} ({{ student.registrationNumber }})
                 </option>
               </select>
+              <div *ngIf="entryForm.get('studentId')?.invalid && entryForm.get('studentId')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="entryForm.get('studentId')?.errors?.['required']">Please select a student</span>
+              </div>
             </div>
             <div *ngIf="!isAdmin">
               <label class="label">Student</label>
@@ -39,12 +46,19 @@
 
             <div>
               <label class="label">Space *</label>
-              <select formControlName="spaceId" class="input">
+              <select 
+                formControlName="spaceId" 
+                class="input"
+                [class.input-error]="entryForm.get('spaceId')?.invalid && entryForm.get('spaceId')?.touched">
                 <option value="">Select a space</option>
                 <option *ngFor="let space of spaces" [value]="space.id">
                   {{ space.name }} - {{ space.currentOccupancy }}/{{ space.capacity }}
                 </option>
               </select>
+              <div *ngIf="entryForm.get('spaceId')?.invalid && entryForm.get('spaceId')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="entryForm.get('spaceId')?.errors?.['required']">Please select a space</span>
+              </div>
             </div>
 
             <div>
@@ -66,12 +80,19 @@
           <div class="space-y-4">
             <div>
               <label class="label">Active Session *</label>
-              <select formControlName="accessRecordId" class="input">
+              <select 
+                formControlName="accessRecordId" 
+                class="input"
+                [class.input-error]="exitForm.get('accessRecordId')?.invalid && exitForm.get('accessRecordId')?.touched">
                 <option value="">Select an active session</option>
                 <option *ngFor="let record of activeRecords" [value]="record.id">
                   {{ record.studentName }} - {{ record.spaceName }} ({{ getElapsedTime(record.entryTime) }})
                 </option>
               </select>
+              <div *ngIf="exitForm.get('accessRecordId')?.invalid && exitForm.get('accessRecordId')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="exitForm.get('accessRecordId')?.errors?.['required']">Please select an active session</span>
+              </div>
             </div>
 
             <div>

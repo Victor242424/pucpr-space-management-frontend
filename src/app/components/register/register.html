@@ -26,8 +26,13 @@
             type="text"
             formControlName="registrationNumber"
             class="input"
+            [class.input-error]="registerForm.get('registrationNumber')?.invalid && registerForm.get('registrationNumber')?.touched"
             placeholder="e.g., 2024001"
           />
+          <div *ngIf="registerForm.get('registrationNumber')?.invalid && registerForm.get('registrationNumber')?.touched" 
+               class="text-red-500 text-xs mt-1">
+            <span *ngIf="registerForm.get('registrationNumber')?.errors?.['required']">Registration number is required</span>
+          </div>
         </div>
 
         <div>
@@ -37,8 +42,13 @@
             type="text"
             formControlName="name"
             class="input"
+            [class.input-error]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
             placeholder="John Doe"
           />
+          <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" 
+               class="text-red-500 text-xs mt-1">
+            <span *ngIf="registerForm.get('name')?.errors?.['required']">Full name is required</span>
+          </div>
         </div>
 
         <div>
@@ -48,8 +58,14 @@
             type="email"
             formControlName="email"
             class="input"
+            [class.input-error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
             placeholder="john@example.com"
           />
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" 
+               class="text-red-500 text-xs mt-1">
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
+          </div>
         </div>
 
         <div>
@@ -70,8 +86,14 @@
             type="password"
             formControlName="password"
             class="input"
+            [class.input-error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
             placeholder="Minimum 6 characters"
           />
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" 
+               class="text-red-500 text-xs mt-1">
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+          </div>
         </div>
 
         <div>
@@ -81,8 +103,13 @@
             type="password"
             formControlName="confirmPassword"
             class="input"
+            [class.input-error]="(registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) || registerForm.errors?.['passwordMismatch']"
             placeholder="Repeat your password"
           />
+          <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched" 
+               class="text-red-500 text-xs mt-1">
+            <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Please confirm your password</span>
+          </div>
           <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched" 
                class="text-red-500 text-xs mt-1">
             Passwords do not match

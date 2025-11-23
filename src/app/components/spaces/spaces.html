@@ -93,22 +93,55 @@
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="label">Code *</label>
-              <input type="text" formControlName="code" class="input" />
+              <input 
+                type="text" 
+                formControlName="code" 
+                class="input"
+                [class.input-error]="spaceForm.get('code')?.invalid && spaceForm.get('code')?.touched" />
+              <div *ngIf="spaceForm.get('code')?.invalid && spaceForm.get('code')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="spaceForm.get('code')?.errors?.['required']">Code is required</span>
+              </div>
             </div>
             <div>
               <label class="label">Name *</label>
-              <input type="text" formControlName="name" class="input" />
+              <input 
+                type="text" 
+                formControlName="name" 
+                class="input"
+                [class.input-error]="spaceForm.get('name')?.invalid && spaceForm.get('name')?.touched" />
+              <div *ngIf="spaceForm.get('name')?.invalid && spaceForm.get('name')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="spaceForm.get('name')?.errors?.['required']">Name is required</span>
+              </div>
             </div>
             <div>
               <label class="label">Type *</label>
-              <select formControlName="type" class="input">
+              <select 
+                formControlName="type" 
+                class="input"
+                [class.input-error]="spaceForm.get('type')?.invalid && spaceForm.get('type')?.touched">
                 <option value="">Select type</option>
                 <option *ngFor="let type of spaceTypes" [value]="type">{{ getTypeLabel(type) }}</option>
               </select>
+              <div *ngIf="spaceForm.get('type')?.invalid && spaceForm.get('type')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="spaceForm.get('type')?.errors?.['required']">Type is required</span>
+              </div>
             </div>
             <div>
               <label class="label">Capacity *</label>
-              <input type="number" formControlName="capacity" class="input" min="1" />
+              <input 
+                type="number" 
+                formControlName="capacity" 
+                class="input" 
+                min="1"
+                [class.input-error]="spaceForm.get('capacity')?.invalid && spaceForm.get('capacity')?.touched" />
+              <div *ngIf="spaceForm.get('capacity')?.invalid && spaceForm.get('capacity')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="spaceForm.get('capacity')?.errors?.['required']">Capacity is required</span>
+                <span *ngIf="spaceForm.get('capacity')?.errors?.['min']">Capacity must be at least 1</span>
+              </div>
             </div>
             <div>
               <label class="label">Building</label>

@@ -80,17 +80,38 @@
           <div class="grid grid-cols-1 gap-4">
             <div>
               <label class="label">Registration Number *</label>
-              <input type="text" formControlName="registrationNumber" class="input" readonly />
+              <input 
+                type="text" 
+                formControlName="registrationNumber" 
+                class="input" 
+                readonly />
             </div>
             
             <div>
               <label class="label">Full Name *</label>
-              <input type="text" formControlName="name" class="input" />
+              <input 
+                type="text" 
+                formControlName="name" 
+                class="input"
+                [class.input-error]="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" />
+              <div *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="studentForm.get('name')?.errors?.['required']">Full name is required</span>
+              </div>
             </div>
             
             <div>
               <label class="label">Email *</label>
-              <input type="email" formControlName="email" class="input" />
+              <input 
+                type="email" 
+                formControlName="email" 
+                class="input"
+                [class.input-error]="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" />
+              <div *ngIf="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" 
+                   class="text-red-500 text-xs mt-1">
+                <span *ngIf="studentForm.get('email')?.errors?.['required']">Email is required</span>
+                <span *ngIf="studentForm.get('email')?.errors?.['email']">Please enter a valid email address</span>
+              </div>
             </div>
             
             <div>
