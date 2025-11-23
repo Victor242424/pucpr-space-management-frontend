@@ -1,8 +1,10 @@
 module.exports = {
-  content: [
-    "./src/**/*.{html,ts}",
-  ],
-  purge: [],
+  purge: {
+    enabled: true,
+    content: [
+      "./src/**/*.{html,ts}",
+    ],
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -18,7 +20,7 @@ module.exports = {
           700: '#0369a1',
           800: '#075985',
           900: '#0c4a6e',
-        },// Puedes agregar más colores personalizados aquí
+        },
         secondary: {
           50: '#f8fafc',
           100: '#f1f5f9',
