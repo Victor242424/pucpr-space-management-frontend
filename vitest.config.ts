@@ -1,27 +1,12 @@
-import { defineConfig } from 'vitest/config';
+import 'zone.js';
+import 'zone.js/testing';
+import { getTestBed } from '@angular/core/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 
-export default defineConfig({
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['src/test-setup.ts'],
-    include: ['src/**/*.spec.ts'],
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      exclude: [
-        'node_modules/',
-        'src/test-setup.ts',
-        '**/*.spec.ts',
-        '**/*.config.ts',
-      ]
-    },
-    css: false,
-  },
-  resolve: {
-    conditions: ['development', 'browser'],
-  },
-  esbuild: {
-    target: 'es2022',
-  },
-});
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting(),
+);
