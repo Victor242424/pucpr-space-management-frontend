@@ -34,7 +34,7 @@ export class ReportsComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error('Error loading reports:', error);
+        console.error('Erro ao carregar relatórios:', error);
         this.isLoading = false;
         this.cdr.detectChanges();
       }
@@ -58,6 +58,7 @@ export class ReportsComponent implements OnInit {
     const sum = this.reports.reduce((total, report) => total + report.occupancyRate, 0);
     return Number((sum / this.reports.length).toFixed(1));
   }
+  
   calculateTotalActiveUsers(): number {
     if (!this.reports || this.reports.length === 0) return 0;
     return this.reports.reduce((sum, r) => sum + r.currentOccupancy, 0) 

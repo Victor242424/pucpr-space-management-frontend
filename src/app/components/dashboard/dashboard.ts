@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error loading spaces:', error)
+        console.error('Erro ao carregar espaços:', error)
         this.cdr.detectChanges(); 
       } 
     });
@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error loading active access:', error)
+        console.error('Erro ao carregar acessos ativos:', error)
         this.cdr.detectChanges(); 
       } 
     });
@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
         this.cdr.detectChanges(); 
       },
       error: (error) => {
-        console.error('Error loading reports:', error);
+        console.error('Erro ao carregar relatórios:', error);
         this.isLoading = false;
         this.cdr.detectChanges(); 
       }
@@ -102,9 +102,9 @@ export class DashboardComponent implements OnInit {
 
   getSpaceTypeLabel(type: string): string {
     const labels: any = {
-      'CLASSROOM': 'Classroom',
-      'LABORATORY': 'Laboratory',
-      'STUDY_ROOM': 'Study Room'
+      'CLASSROOM': 'Sala de Aula',
+      'LABORATORY': 'Laboratório',
+      'STUDY_ROOM': 'Sala de Estudo'
     };
     return labels[type] || type;
   }

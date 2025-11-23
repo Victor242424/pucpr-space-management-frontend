@@ -2,8 +2,8 @@
   <nav class="bg-white shadow-sm mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center h-16">
-        <a [routerLink]="getDashboardLink()" class="text-primary-600 hover:text-primary-700 mr-4">← Back</a>
-        <h1 class="text-2xl font-bold text-gray-800">Access Control</h1>
+        <a [routerLink]="getDashboardLink()" class="text-primary-600 hover:text-primary-700 mr-4">← Voltar</a>
+        <h1 class="text-2xl font-bold text-gray-800">Controle de Acesso</h1>
       </div>
     </div>
   </nav>
@@ -20,54 +20,54 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       <!-- Register Entry -->
       <div class="card">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">🚪 Register Entry</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🚪 Registrar Entrada</h2>
         <form [formGroup]="entryForm" (ngSubmit)="registerEntry()">
           <div class="space-y-4">
             <div *ngIf="isAdmin">
-              <label class="label">Student *</label>
+              <label class="label">Estudante *</label>
               <select 
                 formControlName="studentId" 
                 class="input"
                 [class.input-error]="entryForm.get('studentId')?.invalid && entryForm.get('studentId')?.touched">
-                <option value="">Select a student</option>
+                <option value="">Selecione um estudante</option>
                 <option *ngFor="let student of students" [value]="student.id">
                   {{ student.name }} ({{ student.registrationNumber }})
                 </option>
               </select>
               <div *ngIf="entryForm.get('studentId')?.invalid && entryForm.get('studentId')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="entryForm.get('studentId')?.errors?.['required']">Please select a student</span>
+                <span *ngIf="entryForm.get('studentId')?.errors?.['required']">Por favor, selecione um estudante</span>
               </div>
             </div>
             <div *ngIf="!isAdmin">
-              <label class="label">Student</label>
+              <label class="label">Estudante</label>
               <input type="text" [value]="currentUser?.username" class="input" disabled />
             </div>
 
             <div>
-              <label class="label">Space *</label>
+              <label class="label">Espaço *</label>
               <select 
                 formControlName="spaceId" 
                 class="input"
                 [class.input-error]="entryForm.get('spaceId')?.invalid && entryForm.get('spaceId')?.touched">
-                <option value="">Select a space</option>
+                <option value="">Selecione um espaço</option>
                 <option *ngFor="let space of spaces" [value]="space.id">
                   {{ space.name }} - {{ space.currentOccupancy }}/{{ space.capacity }}
                 </option>
               </select>
               <div *ngIf="entryForm.get('spaceId')?.invalid && entryForm.get('spaceId')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="entryForm.get('spaceId')?.errors?.['required']">Please select a space</span>
+                <span *ngIf="entryForm.get('spaceId')?.errors?.['required']">Por favor, selecione um espaço</span>
               </div>
             </div>
 
             <div>
-              <label class="label">Notes (Optional)</label>
-              <textarea formControlName="notes" class="input" rows="2" placeholder="Add any notes..."></textarea>
+              <label class="label">Observações (Opcional)</label>
+              <textarea formControlName="notes" class="input" rows="2" placeholder="Adicionar observações..."></textarea>
             </div>
 
             <button type="submit" [disabled]="entryForm.invalid" class="btn btn-primary w-full">
-              Register Entry
+              Registrar Entrada
             </button>
           </div>
         </form>
@@ -75,33 +75,33 @@
 
       <!-- Register Exit -->
       <div class="card">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">🚶 Register Exit</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🚶 Registrar Saída</h2>
         <form [formGroup]="exitForm" (ngSubmit)="registerExit()">
           <div class="space-y-4">
             <div>
-              <label class="label">Active Session *</label>
+              <label class="label">Sessão Ativa *</label>
               <select 
                 formControlName="accessRecordId" 
                 class="input"
                 [class.input-error]="exitForm.get('accessRecordId')?.invalid && exitForm.get('accessRecordId')?.touched">
-                <option value="">Select an active session</option>
+                <option value="">Selecione uma sessão ativa</option>
                 <option *ngFor="let record of activeRecords" [value]="record.id">
                   {{ record.studentName }} - {{ record.spaceName }} ({{ getElapsedTime(record.entryTime) }})
                 </option>
               </select>
               <div *ngIf="exitForm.get('accessRecordId')?.invalid && exitForm.get('accessRecordId')?.touched" 
                    class="text-red-500 text-xs mt-1">
-                <span *ngIf="exitForm.get('accessRecordId')?.errors?.['required']">Please select an active session</span>
+                <span *ngIf="exitForm.get('accessRecordId')?.errors?.['required']">Por favor, selecione uma sessão ativa</span>
               </div>
             </div>
 
             <div>
-              <label class="label">Notes (Optional)</label>
-              <textarea formControlName="notes" class="input" rows="2" placeholder="Add exit notes..."></textarea>
+              <label class="label">Observações (Opcional)</label>
+              <textarea formControlName="notes" class="input" rows="2" placeholder="Adicionar notas de saída..."></textarea>
             </div>
 
             <button type="submit" [disabled]="exitForm.invalid" class="btn btn-success w-full">
-              Register Exit
+              Registrar Saída
             </button>
           </div>
         </form>
@@ -110,26 +110,26 @@
 
     <!-- Active Sessions -->
     <div class="card">
-      <h2 class="text-xl font-bold text-gray-800 mb-4">Active Sessions</h2>
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Sessões Ativas</h2>
       
       <div *ngIf="isLoading" class="flex justify-center py-8">
         <div class="spinner"></div>
       </div>
 
       <div *ngIf="!isLoading && activeRecords.length === 0" class="text-center py-8 text-gray-500">
-        No active sessions
+        Nenhuma sessão ativa
       </div>
 
       <div *ngIf="!isLoading && activeRecords.length > 0" class="overflow-x-auto">
         <table class="table">
           <thead>
             <tr>
-              <th>Student</th>
-              <th>Space</th>
-              <th>Entry Time</th>
-              <th>Duration</th>
-              <th>Notes</th>
-              <th>Actions</th>
+              <th>Estudante</th>
+              <th>Espaço</th>
+              <th>Horário de Entrada</th>
+              <th>Duração</th>
+              <th>Observações</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -149,7 +149,7 @@
               <td>{{ record.notes || '-' }}</td>
               <td>
                 <button (click)="quickExit(record.id)" class="btn btn-success text-sm py-1 px-3">
-                  Exit
+                  Sair
                 </button>
               </td>
             </tr>

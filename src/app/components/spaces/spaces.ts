@@ -63,7 +63,7 @@ export class SpacesComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error('Error loading spaces:', error);
+        console.error('Erro ao carregar espaços:', error);
         this.isLoading = false;
         this.cdr.detectChanges();
       }
@@ -113,7 +113,7 @@ export class SpacesComponent implements OnInit {
           this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error('Error updating space:', error)
+          console.error('Erro ao atualizar espaço:', error)
           this.cdr.detectChanges();
         } 
       });
@@ -127,7 +127,7 @@ export class SpacesComponent implements OnInit {
           this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error('Error creating space:', error)
+          console.error('Erro ao criar espaço:', error)
           this.cdr.detectChanges();
         } 
       });
@@ -135,14 +135,14 @@ export class SpacesComponent implements OnInit {
   }
 
   deleteSpace(space: Space): void {
-    if (confirm(`Are you sure you want to delete ${space.name}?`)) {
+    if (confirm(`Tem certeza que deseja excluir ${space.name}?`)) {
       this.spaceService.deleteSpace(space.id).subscribe({
         next: (response) => {
           this.loadSpaces();
           this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error('Error deleting space:', error)
+          console.error('Erro ao excluir espaço:', error)
           this.cdr.detectChanges();
         } 
       });
@@ -161,10 +161,20 @@ export class SpacesComponent implements OnInit {
 
   getTypeLabel(type: string): string {
     const labels: any = {
-      'CLASSROOM': 'Classroom',
-      'LABORATORY': 'Laboratory',
-      'STUDY_ROOM': 'Study Room'
+      'CLASSROOM': 'Sala de Aula',
+      'LABORATORY': 'Laboratório',
+      'STUDY_ROOM': 'Sala de Estudo'
     };
     return labels[type] || type;
+  }
+
+  getStatusLabel(status: string): string {
+    const labels: any = {
+      'AVAILABLE': 'Disponível',
+      'OCCUPIED': 'Ocupado',
+      'MAINTENANCE': 'Manutenção',
+      'UNAVAILABLE': 'Indisponível'
+    };
+    return labels[status] || status;
   }
 }

@@ -69,7 +69,7 @@ export class AccessControlComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error loading spaces:', error);
+        console.error('Erro ao carregar espaços:', error);
         this.cdr.detectChanges(); 
       }
     });
@@ -84,7 +84,7 @@ export class AccessControlComponent implements OnInit {
           }
         },
         error: (error) => {
-          console.error('Error loading students:', error);
+          console.error('Erro ao carregar estudantes:', error);
           this.cdr.detectChanges(); 
         } 
       });
@@ -109,7 +109,7 @@ export class AccessControlComponent implements OnInit {
         this.cdr.detectChanges(); 
       },
       error: (error) => {
-        console.error('Error loading active records:', error);
+        console.error('Erro ao carregar registros ativos:', error);
         this.isLoading = false;
         this.cdr.detectChanges(); 
       }
@@ -126,7 +126,7 @@ export class AccessControlComponent implements OnInit {
     this.accessRecordService.registerEntry(this.entryForm.value).subscribe({
       next: (response) => {
         if (response.success) {
-          this.successMessage = 'Entry registered successfully!';
+          this.successMessage = 'Entrada registrada com sucesso!';
           this.entryForm.patchValue({ spaceId: '', notes: '' });
           this.loadData();
           setTimeout(() => this.successMessage = '', 3000);
@@ -134,7 +134,7 @@ export class AccessControlComponent implements OnInit {
         this.cdr.detectChanges(); 
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Failed to register entry';
+        this.errorMessage = error.error?.message || 'Falha ao registrar entrada';
         this.cdr.detectChanges(); 
       }
     });
@@ -150,7 +150,7 @@ export class AccessControlComponent implements OnInit {
     this.accessRecordService.registerExit(this.exitForm.value).subscribe({
       next: (response) => {
         if (response.success) {
-          this.successMessage = 'Exit registered successfully!';
+          this.successMessage = 'Saída registrada com sucesso!';
           this.exitForm.reset();
           this.loadData();
           setTimeout(() => this.successMessage = '', 3000);
@@ -158,7 +158,7 @@ export class AccessControlComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Failed to register exit';
+        this.errorMessage = error.error?.message || 'Falha ao registrar saída';
         this.cdr.detectChanges(); 
       }
     });
@@ -185,7 +185,7 @@ export class AccessControlComponent implements OnInit {
 
   getSpaceName(spaceId: number): string {
     const space = this.spaces.find(s => s.id === spaceId);
-    return space?.name || 'Unknown';
+    return space?.name || 'Desconhecido';
   }
 
   getDashboardLink(): string {

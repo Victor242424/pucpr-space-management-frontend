@@ -2,8 +2,8 @@
   <nav class="bg-white shadow-sm mb-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center h-16">
-        <a routerLink="/dashboard" class="text-primary-600 hover:text-primary-700 mr-4">← Back</a>
-        <h1 class="text-2xl font-bold text-gray-800">Occupancy Reports</h1>
+        <a routerLink="/dashboard" class="text-primary-600 hover:text-primary-700 mr-4">← Voltar</a>
+        <h1 class="text-2xl font-bold text-gray-800">Relatórios de Ocupação</h1>
       </div>
     </div>
   </nav>
@@ -14,24 +14,24 @@
     </div>
 
     <div *ngIf="!isLoading && reports.length === 0" class="text-center py-12">
-      <p class="text-gray-500 text-lg">No reports available</p>
+      <p class="text-gray-500 text-lg">Nenhum relatório disponível</p>
     </div>
 
     <div *ngIf="!isLoading && reports.length > 0" class="space-y-6">
       <!-- Summary Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="card">
-          <div class="text-sm text-gray-600 mb-1">Total Spaces</div>
+          <div class="text-sm text-gray-600 mb-1">Total de Espaços</div>
           <div class="text-3xl font-bold text-gray-900">{{ reports.length }}</div>
         </div>
         <div class="card">
-          <div class="text-sm text-gray-600 mb-1">Average Occupancy</div>
+          <div class="text-sm text-gray-600 mb-1">Ocupação Média</div>
           <div class="text-3xl font-bold text-primary-600">
             {{ calculateAverage() }}%
             </div>
         </div>
         <div class="card">
-          <div class="text-sm text-gray-600 mb-1">Total Active Users</div>
+          <div class="text-sm text-gray-600 mb-1">Total de Usuários Ativos</div>
           <div class="text-3xl font-bold text-green-600">
             {{ calculateTotalActiveUsers() }}
           </div>
@@ -40,7 +40,7 @@
 
       <!-- Detailed Reports -->
       <div class="card">
-        <h2 class="text-xl font-bold text-gray-800 mb-6">Space Details</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-6">Detalhes dos Espaços</h2>
         
         <div class="space-y-6">
           <div *ngFor="let report of reports" class="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
@@ -54,15 +54,15 @@
                 <div class="text-2xl font-bold" [class]="getOccupancyColor(report.occupancyRate)">
                   {{ report.occupancyRate }}%
                 </div>
-                <div class="text-sm text-gray-500">Occupancy Rate</div>
+                <div class="text-sm text-gray-500">Taxa de Ocupação</div>
               </div>
             </div>
 
             <!-- Occupancy Bar -->
             <div class="mb-4">
               <div class="flex justify-between text-sm mb-2">
-                <span class="text-gray-600">Current: {{ report.currentOccupancy }}</span>
-                <span class="text-gray-600">Capacity: {{ report.capacity }}</span>
+                <span class="text-gray-600">Atual: {{ report.currentOccupancy }}</span>
+                <span class="text-gray-600">Capacidade: {{ report.capacity }}</span>
               </div>
               <div class="w-full bg-gray-200 rounded-full h-3">
                 <div [class]="getOccupancyBarColor(report.occupancyRate)"
@@ -74,27 +74,27 @@
             <!-- Statistics Grid -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div class="bg-blue-50 p-3 rounded-lg">
-                <div class="text-xs text-blue-600 mb-1">Today</div>
+                <div class="text-xs text-blue-600 mb-1">Hoje</div>
                 <div class="text-xl font-bold text-blue-900">{{ report.totalAccessesToday }}</div>
-                <div class="text-xs text-blue-600">Accesses</div>
+                <div class="text-xs text-blue-600">Acessos</div>
               </div>
 
               <div class="bg-purple-50 p-3 rounded-lg">
-                <div class="text-xs text-purple-600 mb-1">This Week (last 7 days)</div>
+                <div class="text-xs text-purple-600 mb-1">Esta Semana (últimos 7 dias)</div>
                 <div class="text-xl font-bold text-purple-900">{{ report.totalAccessesThisWeek }}</div>
-                <div class="text-xs text-purple-600">Accesses</div>
+                <div class="text-xs text-purple-600">Acessos</div>
               </div>
 
               <div class="bg-green-50 p-3 rounded-lg">
-                <div class="text-xs text-green-600 mb-1">This Month </div>
+                <div class="text-xs text-green-600 mb-1">Este Mês</div>
                 <div class="text-xl font-bold text-green-900">{{ report.totalAccessesThisMonth }}</div>
-                <div class="text-xs text-green-600">Accesses</div>
+                <div class="text-xs text-green-600">Acessos</div>
               </div>
 
               <div class="bg-orange-50 p-3 rounded-lg">
-                <div class="text-xs text-orange-600 mb-1">Avg Duration (last 30 days)</div>
+                <div class="text-xs text-orange-600 mb-1">Duração Média (últimos 30 dias)</div>
                 <div class="text-xl font-bold text-orange-900">{{ report.averageDurationInMinutes.toFixed(0) }}</div>
-                <div class="text-xs text-orange-600">Minutes</div>
+                <div class="text-xs text-orange-600">Minutos</div>
               </div>
             </div>
           </div>

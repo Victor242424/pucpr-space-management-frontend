@@ -45,13 +45,13 @@ export class LoginComponent {
             this.router.navigate(['/dashboard-student']);
           }
         } else {
-          this.errorMessage = response.message || 'Login failed';
+          this.errorMessage = response.message || 'Falha no login';
         }
         this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (error) => {
-        this.errorMessage = error.error?.message || 'Invalid username or password';
+        this.errorMessage = error.error?.message || 'Usuário ou senha inválidos';
         this.isLoading = false;
         this.cdr.detectChanges();
       }
